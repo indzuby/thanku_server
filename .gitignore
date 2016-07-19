@@ -1,0 +1,6 @@
+.DS_Store
+thanks-server/.idea/*
+*.ipr
+*.iws
+thanks-server/thanks/build/*
+*.class
