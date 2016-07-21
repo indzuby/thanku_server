@@ -41,13 +41,14 @@ public class User extends BaseModel {
     }
 
 
+    @Column(unique = true, length = 20)
     private String phone;
 
     private String password;
 
     private String name;
 
-    @Column(unique = true, nullable = false)
+    @Column(unique = true, nullable = false, length = 50)
     private String email;
 
     @Column(unique = true)

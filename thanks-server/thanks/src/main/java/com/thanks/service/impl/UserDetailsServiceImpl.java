@@ -11,6 +11,8 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
+import java.util.regex.Pattern;
+
 /**
  * Created by micky on 2016. 7. 17..
  */
@@ -23,9 +25,15 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        User u = userService.findByEmail(username);
+        Pattern p = Pattern.compile("[0-9]{2,3}-[0-9]{3,4}-[0-9]{4}");
+        User u;
+        if(p.matcher(username).find())
+            u = userService.findByPhone(username);
+        else
+            u = userService.findByEmail(username);
+
         log.info("username : {}", username);
-        AssertUtil.notNull(u, "User "+username+" doesn't exist");
+        AssertUtil.notNull(u, String.format("User %s doesn't exist", username));
         return new UserDetailsImpl(u);
     }
 }
