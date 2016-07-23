@@ -1,14 +1,21 @@
 package com.thanks.service.impl;
 
+import com.thanks.model.OrderInfo;
 import com.thanks.model.OrderObject;
 import com.thanks.model.User;
-import com.thanks.repository.OrderObjectRepository;
+import com.thanks.repository.OrderInfoRepository;
+import com.thanks.repository.OrderRepository;
 import com.thanks.service.OrderService;
+import com.thanks.util.AssertUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -18,51 +25,104 @@ import java.util.List;
 public class OrderServiceImpl implements OrderService {
 
     @Autowired
-    OrderObjectRepository orderObjectRepository;
+    OrderRepository orderRepository;
+
+    @Autowired
+    OrderInfoRepository orderInfoRepository;
 
     @Override
     public List<OrderObject> findAll() {
-        return orderObjectRepository.findAll();
+        return orderRepository.findAll();
     }
 
     @Override
     public OrderObject find(Long key) {
-        return orderObjectRepository.findOne(key);
+        return orderRepository.findOne(key);
     }
 
     @Transactional
     @Override
     public OrderObject add(OrderObject data) {
-        return orderObjectRepository.saveAndFlush(data);
+        return orderRepository.saveAndFlush(data);
     }
 
     @Transactional
     @Override
     public OrderObject update(Long key, OrderObject data) {
         data.setId(key);
-        return orderObjectRepository.saveAndFlush(data);
+        return orderRepository.saveAndFlush(data);
     }
 
     @Transactional
     @Override
     public void remove(Long key) {
-        orderObjectRepository.delete(key);
+        orderRepository.delete(key);
     }
 
     @Override
     public List<List<OrderObject>> getUserOrderList(User user, boolean isOrdered) {
         ArrayList<List<OrderObject>> userBasket = new ArrayList<>();
         for(OrderObject.OrderType t : OrderObject.OrderType.values()) {
-            userBasket.add(orderObjectRepository.findByOrderIdAndOrderYnAndObjectType(user.getId(), isOrdered, t.value));
+            userBasket.add(orderRepository.findByOrderIdAndOrderYnAndObjectType(user.getId(), isOrdered, t.value));
         }
         return userBasket;
     }
 
     @Override
     public OrderObject toOrderList(User user, Long id) {
-        OrderObject orderObject = orderObjectRepository.getOne(id);
+        OrderObject orderObject = orderRepository.getOne(id);
         orderObject.setOrderYn(true);
+        orderObject.setUpdatedTime(Calendar.getInstance().getTime());
+        return orderRepository.saveAndFlush(orderObject);
+    }
 
-        return orderObjectRepository.saveAndFlush(orderObject);
+    @Transactional
+    @Override
+    public void toAllOrder(User user) {
+        List<OrderObject> orderObjectList = orderRepository.findByOrderIdAndOrderYn(user.getId(), false);
+        AssertUtil.state(orderObjectList.size() != 0, "No order in basket");
+        OrderInfo orderInfo = new OrderInfo();
+        StringBuilder sb = new StringBuilder();
+        DateFormat df = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+
+        Date now = new Date();
+
+        int price = 0;
+        for (OrderObject obj :
+                orderObjectList) {
+            obj.setOrderYn(true);
+            obj.setUpdatedTime(Calendar.getInstance().getTime());
+            price += obj.getPrice() + obj.getAddPrice();
+            sb.append(obj.getComment());
+            sb.append("/");
+        }
+        sb.deleteCharAt(sb.length()-1);
+        orderInfo.setOrder(user);
+        orderInfo.setOrderDate(df.format(now));
+        orderInfo.setComment(sb.toString());
+        orderInfo.setItems(orderObjectList);
+        orderInfo.setCreateTime(now);
+        orderInfo.setUpdatedTime(now);
+        orderInfo.setPrice(price);
+        orderInfoRepository.saveAndFlush(orderInfo);
+        orderRepository.save(orderObjectList);
+    }
+
+    @Override
+    public List<OrderInfo> userOrderInfo(User user) {
+        List<OrderInfo> o = orderInfoRepository.findAllByOrderIdOrderByUpdatedTimeDesc(user.getId());
+//        List info = orderRepository.getOrderInfo(user.getId());
+//
+//        for (int i = 0; i < info.size(); i++) {
+//            Object[] in = (Object[])info.get(i);
+//            OrderInfo orderInfo = new OrderInfo();
+//            orderInfo.setPrice(((BigDecimal)in[0]).longValue());
+//            orderInfo.setCount(((BigInteger)in[1]).intValue());
+//            orderInfo.setComment(in[2].toString());
+//            orderInfo.setOrderDate(in[3].toString());
+//            o.add(orderInfo);
+//            //orderInfo.set
+//        }
+        return o;
     }
 }

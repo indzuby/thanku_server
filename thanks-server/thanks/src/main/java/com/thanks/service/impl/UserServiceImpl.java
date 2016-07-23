@@ -1,8 +1,8 @@
 package com.thanks.service.impl;
 
+import com.thanks.model.OrderInfo;
 import com.thanks.model.OrderObject;
 import com.thanks.model.User;
-import com.thanks.repository.OrderObjectRepository;
 import com.thanks.repository.UserRepository;
 import com.thanks.service.OrderService;
 import com.thanks.service.UserService;
@@ -11,7 +11,6 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -83,7 +82,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<List<OrderObject>> getUserOrder(User user) {
-        return orderService.getUserOrderList(user, true);
+    public List<OrderInfo> getUserOrder(User user) {
+        return orderService.userOrderInfo(user);
     }
 }

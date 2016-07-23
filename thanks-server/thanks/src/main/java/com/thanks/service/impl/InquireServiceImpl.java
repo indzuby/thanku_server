@@ -6,6 +6,8 @@ import com.thanks.service.InquireService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -29,6 +31,9 @@ public class InquireServiceImpl implements   InquireService{
 
     @Override
     public Inquire add(Inquire data) {
+        Date now = Calendar.getInstance().getTime();
+        data.setCreateTime(now);
+        data.setUpdatedTime(now);
         return inquireRepository.saveAndFlush(data);
     }
 

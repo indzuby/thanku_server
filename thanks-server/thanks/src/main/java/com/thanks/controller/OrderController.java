@@ -1,6 +1,7 @@
 package com.thanks.controller;
 
 import com.thanks.form.OrderObjectForm;
+import com.thanks.model.OrderInfo;
 import com.thanks.model.OrderObject;
 import com.thanks.model.User;
 import com.thanks.service.OrderService;
@@ -8,6 +9,8 @@ import com.thanks.util.annotation.CurrentUser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 /**
  *
@@ -46,9 +49,16 @@ public class OrderController {
         orderService.toOrderList(user, id);
     }
 
+    @RequestMapping(method = RequestMethod.PUT, value="/ordering")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void toEveryOrder(@CurrentUser User user) {
+        orderService.toAllOrder(user);
+    }
+
     @RequestMapping(method = RequestMethod.DELETE, value="/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void remove(@PathVariable Long id) {
         orderService.remove(id);
     }
+
 }

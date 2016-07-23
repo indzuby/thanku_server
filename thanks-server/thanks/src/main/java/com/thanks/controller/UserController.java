@@ -2,6 +2,7 @@ package com.thanks.controller;
 
 import com.thanks.form.EmailSignUpForm;
 import com.thanks.form.SocialSignUpForm;
+import com.thanks.model.OrderInfo;
 import com.thanks.model.OrderObject;
 import com.thanks.model.User;
 import com.thanks.service.UserService;
@@ -61,7 +62,7 @@ public class UserController {
 
     @RequestMapping(method= RequestMethod.GET, value="/order")
     @ResponseBody
-    public List<List<OrderObject>> getOrderList(@CurrentUser User user) {
+    public List<OrderInfo> getOrderList(@CurrentUser User user) {
         return userService.getUserOrder(user);
     }
 

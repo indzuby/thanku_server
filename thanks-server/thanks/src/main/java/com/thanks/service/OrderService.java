@@ -1,5 +1,6 @@
 package com.thanks.service;
 
+import com.thanks.model.OrderInfo;
 import com.thanks.model.OrderObject;
 import com.thanks.model.User;
 
@@ -12,4 +13,8 @@ public interface OrderService extends ServiceBase<OrderObject> {
     List<List<OrderObject>> getUserOrderList(User user, boolean isOrdered);
 
     OrderObject toOrderList(User user, Long id);
+
+    void toAllOrder(User user);
+
+    List<OrderInfo> userOrderInfo(User user);
 }

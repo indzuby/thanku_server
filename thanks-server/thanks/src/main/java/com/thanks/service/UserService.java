@@ -1,5 +1,6 @@
 package com.thanks.service;
 
+import com.thanks.model.OrderInfo;
 import com.thanks.model.OrderObject;
 import com.thanks.model.User;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -19,5 +20,5 @@ public interface UserService extends ServiceBase<User> {
 
     List<List<OrderObject>> getUserBasket(User user);
 
-    List<List<OrderObject>> getUserOrder(User user);
+    List<OrderInfo> getUserOrder(User user);
 }

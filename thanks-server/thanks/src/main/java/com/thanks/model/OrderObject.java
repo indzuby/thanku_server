@@ -106,4 +106,8 @@ public abstract class OrderObject extends BaseModel {
 
     @Lob
     private String comment;
+
+
+    @Column(name="orderinfo_id")
+    private int orderInfo;
 }
