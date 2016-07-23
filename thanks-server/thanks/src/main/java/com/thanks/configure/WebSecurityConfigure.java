@@ -26,7 +26,7 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 @Configuration
 @EnableWebSecurity
 @Order(SecurityProperties.ACCESS_OVERRIDE_ORDER)
-public class WebSecurityConfigure extends WebSecurityConfigurerAdapter{
+public class WebSecurityConfigure extends WebSecurityConfigurerAdapter {
 
     @Autowired
     private UserDetailsService userDetailsService;
@@ -75,14 +75,8 @@ public class WebSecurityConfigure extends WebSecurityConfigurerAdapter{
                 .ignoring()
                 .antMatchers(HttpMethod.POST, "/api/rider")
                 .antMatchers(HttpMethod.POST, "/api/user")
-                .antMatchers(HttpMethod.GET, "/activateUser")
-                .antMatchers(HttpMethod.GET, "/resetPassword")
-                .antMatchers(HttpMethod.GET, "/days/*/withoutAuth")
-                .antMatchers(HttpMethod.GET, "/days/*/itinerary/withoutAuth")
-                .antMatchers(HttpMethod.GET, "/days/*/recommendation/withoutAuth")
-                .antMatchers(HttpMethod.GET, "/photos/*/withoutAuth")
-                .antMatchers(HttpMethod.GET, "/photos/*/list/withoutAuth")
-                .antMatchers(HttpMethod.GET, "/photos/*/nearBy/withoutAuth");
+                .antMatchers(HttpMethod.GET, "/images/**")
+                .antMatchers(HttpMethod.GET, "/api/adv/**");
         // @formatter:on
     }
 

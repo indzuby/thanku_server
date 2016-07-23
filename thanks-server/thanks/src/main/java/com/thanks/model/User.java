@@ -56,7 +56,7 @@ public class User extends BaseModel {
     @Column(unique = true)
     private String socialAccessToken;
 
-    private String profilePath = "/profile/default.png";
+    private String profilePath = "/images/profile/default.png";
 
     @Enumerated(EnumType.STRING)
     private UserType type;
