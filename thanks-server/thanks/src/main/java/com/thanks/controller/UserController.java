@@ -3,6 +3,7 @@ package com.thanks.controller;
 import com.thanks.form.EmailSignUpForm;
 import com.thanks.model.User;
 import com.thanks.service.UserService;
+import com.thanks.util.annotation.CurrentUser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -43,5 +44,11 @@ public class UserController {
         return userService.add(user.toRider());
     }
 
+
+    @RequestMapping(method=RequestMethod.GET, value="/mine")
+    @ResponseBody
+    public User getMyInfo(@CurrentUser User user) {
+        return user;
+    }
 
 }

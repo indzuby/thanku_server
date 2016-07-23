@@ -10,7 +10,11 @@ import org.springframework.data.web.config.EnableSpringDataWebSupport;
 import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
-@ComponentScan(basePackages = {"com.thanks.configure", "com.thanks.controller", "com.thanks.service"})
+@ComponentScan(basePackages = {
+        "com.thanks.configure"
+        , "com.thanks.controller"
+        , "com.thanks.service"
+        , "com.thanks.util.aspect"})
 @EnableJpaRepositories(basePackages = {"com.thanks.repository"})
 @EnableJpaAuditing
 @EnableAsync
