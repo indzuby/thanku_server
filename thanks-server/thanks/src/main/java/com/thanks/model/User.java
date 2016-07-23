@@ -1,10 +1,13 @@
 package com.thanks.model;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
-import lombok.*;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.RequiredArgsConstructor;
+import org.hibernate.annotations.ColumnDefault;
 
 import javax.persistence.*;
-import java.util.List;
+import java.util.Date;
 
 /**
  * Created by micky on 2016. 6. 20..
@@ -46,12 +49,19 @@ public class User extends BaseModel {
         }
     }
 
+    public enum SexType{
+        MALE,FEMALE;
+    }
+
     @Column(unique = true, length = 20)
     private String phone;
 
     private String password;
 
     private String name;
+
+    @Column
+    private String nickname;
 
     @Column(unique = true, length = 50)
     private String email;
@@ -67,9 +77,19 @@ public class User extends BaseModel {
     @Enumerated(EnumType.STRING)
     private SignUpType signUpType;
 
-//    /**
-//     * 주문 목록
-//     */
-//    @OneToMany(fetch = FetchType.LAZY, mappedBy = "order")
-//    private List<OrderObject> orderList;
+    @Enumerated(EnumType.STRING)
+    private SexType sexType;
+
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date birthday;
+    @Column
+    private String address;
+
+    @ColumnDefault("1")
+    private boolean smsReceiveYn;
+    @ColumnDefault("1")
+    private boolean emailReceiveYn;
+    @ColumnDefault("1")
+    private boolean pushReceiveYn;
+
 }

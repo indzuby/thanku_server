@@ -31,8 +31,6 @@ public class Category extends BaseModel{
     @Column(nullable = false)
     private String name;
 
-
-    @Column
     private int priority;
 
     @Enumerated(EnumType.STRING)

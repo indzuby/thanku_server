@@ -22,19 +22,15 @@ public class Advertisement extends BaseModel{
     }
 
 
-    @Column
     private String url;
 
     @Enumerated(EnumType.STRING)
     private AdvertisementType type;
 
-    @Column
     private Date startTime;
 
-    @Column
     private Date endTime;
 
-    @Column
     private int priority;
 
 }

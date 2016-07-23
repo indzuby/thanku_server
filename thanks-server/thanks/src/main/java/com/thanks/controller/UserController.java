@@ -64,4 +64,11 @@ public class UserController {
     public List<List<OrderObject>> getOrderList(@CurrentUser User user) {
         return userService.getUserOrder(user);
     }
+    @RequestMapping(method = RequestMethod.POST, value="/update")
+    @ResponseBody
+    public User update(@RequestBody User user) {
+
+        return userService.update(user.getId(),user);
+    }
+
 }
