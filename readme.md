@@ -104,7 +104,7 @@ Authorization Basic dGhhbmtzQ2xpZW50SWQ6dGhhbmtzU2VjcmV0
 
 param :
 ```
-scope=read write delete&client_secret=thanksSecret&username=ksmail13@gmail.com&client_id=thanksClientId&password=12345
+scope=read write delete&client_secret=thanksSecret&username=ksmail13@gmail.com&client_id=thanksClientId&password=12345&grant_type=password
 ```
 
 response :
