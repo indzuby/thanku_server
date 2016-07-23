@@ -53,8 +53,16 @@ public class OrderServiceImpl implements OrderService {
     public List<List<OrderObject>> getUserOrderList(User user, boolean isOrdered) {
         ArrayList<List<OrderObject>> userBasket = new ArrayList<>();
         for(OrderObject.OrderType t : OrderObject.OrderType.values()) {
-            userBasket.add(orderObjectRepository.findByOrderIdAndOrderYnAndObjectType(user.getId(), false, t.value));
+            userBasket.add(orderObjectRepository.findByOrderIdAndOrderYnAndObjectType(user.getId(), isOrdered, t.value));
         }
         return userBasket;
+    }
+
+    @Override
+    public OrderObject toOrderList(User user, Long id) {
+        OrderObject orderObject = orderObjectRepository.getOne(id);
+        orderObject.setOrderYn(true);
+
+        return orderObjectRepository.saveAndFlush(orderObject);
     }
 }

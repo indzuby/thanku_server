@@ -74,13 +74,13 @@ public class OAuth2ServerConfiguration {
         private TokenStore tokenStore;
 
         @Bean
-        @Profile({ProfileValue.DEV})
+        @Profile({ProfileValue.DEVCLEAR})
         public TokenStore devTokenStore() {
             return new InMemoryTokenStore();
         }
 
         @Bean
-        @Profile({ProfileValue.TEST, ProfileValue.PRODUCTION, ProfileValue.ZUBY})
+        @Profile({ProfileValue.TEST, ProfileValue.PRODUCTION, ProfileValue.ZUBY, ProfileValue.DEV})
         public TokenStore tokenStore() {
             return new JdbcTokenStore(dataSource);
         }

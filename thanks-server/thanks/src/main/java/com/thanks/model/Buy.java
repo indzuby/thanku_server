@@ -8,7 +8,7 @@ import javax.persistence.Entity;
 import javax.persistence.Table;
 
 /**
- * Created by micky on 2016. 7. 23..
+ * 사다주기
  */
 @EqualsAndHashCode(callSuper = true)
 @Data

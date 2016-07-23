@@ -10,4 +10,6 @@ import java.util.List;
  */
 public interface OrderService extends ServiceBase<OrderObject> {
     List<List<OrderObject>> getUserOrderList(User user, boolean isOrdered);
+
+    OrderObject toOrderList(User user, Long id);
 }

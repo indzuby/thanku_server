@@ -40,6 +40,12 @@ public class OrderController {
         return orderService.update(id, orderObjectForm.toOrderObject());
     }
 
+    @RequestMapping(method = RequestMethod.PUT, value="/{id}/ordering")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void toOrder(@CurrentUser User user, @PathVariable Long id) {
+        orderService.toOrderList(user, id);
+    }
+
     @RequestMapping(method = RequestMethod.DELETE, value="/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void remove(@PathVariable Long id) {

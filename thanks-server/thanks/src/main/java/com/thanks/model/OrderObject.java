@@ -8,7 +8,7 @@ import java.util.Date;
 
 
 /**
- * Created by micky on 2016. 7. 23..
+ * 주문 할 수 있는 것들에 공통타입
  */
 @Data
 @Entity

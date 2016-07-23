@@ -6,7 +6,7 @@ import javax.persistence.*;
 import java.util.Date;
 
 /**
- * Created by micky on 2016. 6. 21..
+ * 심부름
  */
 @EqualsAndHashCode(callSuper = true)
 @Data
@@ -27,10 +27,10 @@ public class Errand extends OrderObject {
     private boolean matchYn;
 
     @Column
-    private String lat;
+    private double lat;
 
     @Column
-    private String lon;
+    private double lon;
 
     @Column
     private String address;

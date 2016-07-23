@@ -7,7 +7,7 @@ import javax.persistence.Entity;
 import javax.persistence.OneToOne;
 
 /**
- * Created by micky on 2016. 7. 23..
+ * 레스토랑의 주문
  */
 @Data
 @DiscriminatorValue("R")

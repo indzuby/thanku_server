@@ -10,7 +10,7 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 import javax.servlet.http.HttpServletRequest;
 
 /**
- * Created by micky on 2016. 7. 18..
+ * 서버 작동중 에러 발생시 핸들링하는 클래스
  */
 @ControllerAdvice
 public class ThanksExceptionHandler extends ResponseEntityExceptionHandler {
@@ -18,6 +18,11 @@ public class ThanksExceptionHandler extends ResponseEntityExceptionHandler {
     @ExceptionHandler(UnauthorizedUserException.class)
     public ResponseEntity<String> handleUnauthorizedUser (HttpServletRequest req, Exception e) {
         return new ResponseEntity<>(e.getMessage(), HttpStatus.UNAUTHORIZED);
+    }
+
+    @ExceptionHandler(Throwable.class)
+    public ResponseEntity<String> handleOtherException(HttpServletRequest req, Throwable e) {
+        return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
 
