@@ -13,16 +13,40 @@ buildscript {
 }
 
 apply plugin: 'java'
+apply plugin: 'application'
 apply plugin: 'eclipse'
 apply plugin: 'spring-boot'
-apply plugin: 'application'
+apply plugin: 'war'
+
+war {
+    baseName = 'thanks-server'
+    version = '0.0.5-SNAPSHOT'
+
+    manifest {
+        attributes  'Title': 'Reqeust And Header Tester', 'Version': 1.0, 'Main-Class': 'com.thanks.Application'
+
+    }
+}
+
 
 jar {
-	baseName = 'thanks-server'
-	version = '0.0.5-SNAPSHOT'
+    baseName = 'thanks-server'
+    version = '0.0.5-SNAPSHOT'
+
+    manifest {
+        attributes  'Title': 'Reqeust And Header Tester', 'Version': 1.0, 'Main-Class': 'com.thanks.Application'
+    }
+//    archiveName 'reqTester.jar'
+    dependsOn configurations.runtime
+    from {
+        configurations.compile.collect {it.isDirectory()? it: zipTree(it)}
+    }
 }
+
 sourceCompatibility = 1.8
 targetCompatibility = 1.8
+
+mainClassName = "com.thanks.Application"
 
 repositories {
 	mavenCentral()
@@ -60,6 +84,9 @@ dependencies {
 
     compile('org.springframework.boot:spring-boot-starter-redis')
     compile group: 'org.springframework.data', name: 'spring-data-redis', version: '1.7.2.RELEASE'
+// https://mvnrepository.com/artifact/org.springframework.data/spring-data-keyvalue
+    compile group: 'org.springframework.data', name: 'spring-data-keyvalue', version: '1.1.2.RELEASE'
+
 
     compile group: 'redis.clients', name: 'jedis', version: '2.8.1'
 
