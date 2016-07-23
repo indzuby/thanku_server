@@ -1,5 +1,6 @@
 package com.thanks.model;
 
+import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import lombok.Data;
 
@@ -14,6 +15,7 @@ import java.util.Date;
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED)
 @DiscriminatorColumn(name = "object_type")
+@JsonAutoDetect
 public abstract class OrderObject extends BaseModel {
 
     public enum OrderType {

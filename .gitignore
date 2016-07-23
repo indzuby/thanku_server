@@ -4,3 +4,5 @@ thanks-server/.idea/*
 *.iws
 thanks-server/thanks/build/*
 *.class
+thanks-server/out/*
+thanks-server/thanks/.gradle/*

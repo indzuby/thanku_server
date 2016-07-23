@@ -25,8 +25,8 @@ public class OrderController {
 
     @RequestMapping(method = RequestMethod.GET, value = "/{id}")
     @ResponseBody
-    public OrderObject getOrderInfo(@PathVariable Long id) {
-        return orderService.find(id);
+    public OrderInfo getOrderInfo(@PathVariable Long id) {
+        return orderService.getInfo(id);
     }
 
     @RequestMapping(method = RequestMethod.POST, value="")

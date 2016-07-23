@@ -124,4 +124,16 @@ public class OrderServiceImpl implements OrderService {
 //        }
         return o;
     }
+
+    @Override
+    public OrderInfo getInfo(Long id) {
+        OrderInfo info = orderInfoRepository.findOne(id);
+
+        ArrayList<List<OrderObject>> groupItem = new ArrayList<>();
+        for(OrderObject.OrderType t : OrderObject.OrderType.values()) {
+            groupItem.add(orderRepository.findByOrderYnAndObjectTypeAndOrderInfo(true, t.value, id));
+        }
+        info.setGroupItems(groupItem);
+        return info;
+    }
 }

@@ -21,6 +21,8 @@ public interface OrderRepository extends JpaRepository<OrderObject, Long> {
 
     List<OrderObject> findByOrderIdAndOrderYnAndObjectType(Long userId, boolean orderYn, String orderType);
 
+    List<OrderObject> findByOrderYnAndObjectTypeAndOrderInfo(boolean orderYn, String orderType, Long orderInfoId);
+
     @Query(value = "SELECT sum(price)+sum(add_price) as price, count(*) as count, group_concat(comment SEPARATOR ' / ') comment, updated_time as orderDate FROM order_object WHERE order_id= :user AND order_yn = 1 GROUP BY updated_time ORDER BY updated_time DESC",nativeQuery = true)
     List<OrderInfo> getOrderInfo(@Param("user")Long userId);
 
