@@ -109,5 +109,5 @@ public abstract class OrderObject extends BaseModel {
 
 
     @Column(name="orderinfo_id")
-    private int orderInfo;
+    private Long orderInfo;
 }

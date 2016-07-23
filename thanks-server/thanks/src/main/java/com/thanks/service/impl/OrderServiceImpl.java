@@ -81,30 +81,29 @@ public class OrderServiceImpl implements OrderService {
     public void toAllOrder(User user) {
         List<OrderObject> orderObjectList = orderRepository.findByOrderIdAndOrderYn(user.getId(), false);
         AssertUtil.state(orderObjectList.size() != 0, "No order in basket");
-        OrderInfo orderInfo = new OrderInfo();
+
         StringBuilder sb = new StringBuilder();
         DateFormat df = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
 
         Date now = new Date();
 
         int price = 0;
-        for (OrderObject obj :
-                orderObjectList) {
-            obj.setOrderYn(true);
-            obj.setUpdatedTime(Calendar.getInstance().getTime());
+        for (OrderObject obj : orderObjectList) {
             price += obj.getPrice() + obj.getAddPrice();
-            sb.append(obj.getComment());
-            sb.append("/");
+            sb.append(obj.getComment()).append("/");
         }
         sb.deleteCharAt(sb.length()-1);
-        orderInfo.setOrder(user);
-        orderInfo.setOrderDate(df.format(now));
-        orderInfo.setComment(sb.toString());
-        orderInfo.setItems(orderObjectList);
+        OrderInfo orderInfo = new OrderInfo(price, sb.toString(), df.format(now), orderObjectList.size(), user);
         orderInfo.setCreateTime(now);
         orderInfo.setUpdatedTime(now);
-        orderInfo.setPrice(price);
         orderInfoRepository.saveAndFlush(orderInfo);
+
+        for (OrderObject obj : orderObjectList) {
+            obj.setOrderYn(true);
+            obj.setUpdatedTime(now);
+            obj.setOrderInfo(orderInfo.getId());
+        }
+
         orderRepository.save(orderObjectList);
     }
 

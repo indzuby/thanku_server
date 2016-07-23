@@ -13,7 +13,6 @@ import java.util.List;
  */
 @Data
 @NoArgsConstructor
-@AllArgsConstructor
 @Entity
 @Table
 public class OrderInfo extends BaseModel{
@@ -32,4 +31,12 @@ public class OrderInfo extends BaseModel{
 
     @OneToMany(mappedBy = "orderInfo", cascade = CascadeType.ALL)
     private List<OrderObject> items;
+
+    public OrderInfo(long price, String comment, String orderDate, int count, User order) {
+        this.price = price;
+        this.comment = comment;
+        this.orderDate = orderDate;
+        this.count = count;
+        this.order = order;
+    }
 }
