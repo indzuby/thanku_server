@@ -6,6 +6,7 @@ import com.thanks.model.User;
 import com.thanks.service.UserService;
 import com.thanks.util.annotation.CurrentUser;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -48,6 +49,4 @@ public class UserController {
     public User getMyInfo(@CurrentUser User user) {
         return user;
     }
-
-    @RequestMapping(method=)
 }

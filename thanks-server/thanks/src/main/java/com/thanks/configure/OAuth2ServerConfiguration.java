@@ -74,7 +74,7 @@ public class OAuth2ServerConfiguration {
         private TokenStore tokenStore;
 
         @Bean
-        @Profile(ProfileValue.DEV)
+        @Profile({ProfileValue.DEV, ProfileValue.ZUBY})
         public TokenStore devTokenStore() {
             return new InMemoryTokenStore();
         }
