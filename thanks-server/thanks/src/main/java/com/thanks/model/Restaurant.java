@@ -25,15 +25,15 @@ public class Restaurant extends BaseModel{
 
     @Column(nullable = false)
     String name;
-    @Column
+
     String businessHours;
-    @Column
+
     String url;
-    @Column
+
     int likeCount;
-    @Column
+
     int commentCount;
-    @Column
+
     int callCount;
 
 

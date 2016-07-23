@@ -51,4 +51,12 @@ public class UserController {
     public User getMyInfo(@CurrentUser User user) {
         return user;
     }
+
+    @RequestMapping(method = RequestMethod.POST, value="/update")
+    @ResponseBody
+    public User update(@RequestBody User user) {
+
+        return userService.update(user.getId(),user);
+    }
+
 }

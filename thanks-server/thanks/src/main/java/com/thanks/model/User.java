@@ -3,6 +3,7 @@ package com.thanks.model;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.thanks.util.LengthUtil;
 import lombok.*;
+import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.NotBlank;
@@ -10,6 +11,7 @@ import org.hibernate.validator.constraints.NotBlank;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -52,6 +54,10 @@ public class User extends BaseModel {
         }
     }
 
+    public enum SexType{
+        MALE,FEMALE;
+    }
+
 
     @Column(unique = true, length = 20)
     private String phone;
@@ -59,6 +65,9 @@ public class User extends BaseModel {
     private String password;
 
     private String name;
+
+    @Column
+    private String nickname;
 
     @Column(unique = true, length = 50)
     private String email;
@@ -78,5 +87,21 @@ public class User extends BaseModel {
     @OneToMany
     @JoinColumn(name = "order_id")
     private List<Quick> quickList = new ArrayList<>();
+
+
+    @Enumerated(EnumType.STRING)
+    private SexType sexType;
+
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date birthday;
+    @Column
+    private String address;
+
+    @ColumnDefault("1")
+    private boolean smsReceiveYn;
+    @ColumnDefault("1")
+    private boolean emailReceiveYn;
+    @ColumnDefault("1")
+    private boolean pushReceiveYn;
 
 }
