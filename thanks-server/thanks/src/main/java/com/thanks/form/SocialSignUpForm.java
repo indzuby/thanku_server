@@ -29,6 +29,8 @@ public class SocialSignUpForm extends BaseForm{
 
     private String email;
 
+    private String phone;
+
 
     public User toUser() {
         User u = modelMapper.map(this, User.class);

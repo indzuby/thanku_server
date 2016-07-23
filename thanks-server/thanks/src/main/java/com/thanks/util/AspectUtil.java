@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import java.lang.annotation.Annotation;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.MissingFormatArgumentException;
 
 /**
  * Created by micky on 2016. 7. 18..
@@ -45,6 +46,21 @@ public class AspectUtil {
         AssertUtil.isTrue(MIN_BOUND < index,
                 new InternalServerErrorException("BoundErrorOnFindParameterIndexByAnnotationType"));
         return index;
+    }
+
+    public static Annotation findParameterAnnotationByAnnotationType(JoinPoint joinPoint, Class<?> clazz) {
+        Annotation[][] parameterAnnotations = ((MethodSignature) joinPoint.getSignature()).getMethod()
+                .getParameterAnnotations();
+        for (int i = 0; i < parameterAnnotations.length; i++) {
+            Annotation[] annotations = parameterAnnotations[i];
+            for (Annotation annotation : annotations) {
+                if (annotation.annotationType() == clazz) {
+                    return annotation;
+                }
+            }
+        }
+        AssertUtil.isNull(null, new MissingFormatArgumentException("missing argument"));
+        return null;
     }
 
     public static boolean isPathVariable(JoinPoint joinPoint, Class<PathVariable> clazz, int parameterIndex) {

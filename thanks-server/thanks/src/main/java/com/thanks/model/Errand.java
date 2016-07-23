@@ -11,37 +11,20 @@ import java.util.Date;
 @EqualsAndHashCode(callSuper = true)
 @Data
 @RequiredArgsConstructor
-@Table
-@AttributeOverrides({
-        @AttributeOverride(name = "id", column = @Column),
-        @AttributeOverride(name = "createTime", column = @Column),
-        @AttributeOverride(name = "updatedTime", column = @Column)
-})
 @Entity
-public class Errand extends BaseModel {
+@Table
+@DiscriminatorValue("E")
+public class Errand extends OrderObject {
 
-    @Column
-    private int price;
 
-    @Column
-    private int add_price;
+    /**
+     * 예약
+     */
+    @Column(name = "reserv_yn")
+    private boolean reservYn;
 
-    @ManyToOne(targetEntity = User.class)
-    @JoinColumn(name = "order_id")
-    private User order;
-
-    @ManyToOne(targetEntity = User.class)
-    @JoinColumn(name = "rider_id")
-    private User rider;
-
-    @Column
-    private String description;
-
-    @Column
-    private boolean reserv_yn;
-
-    @Column
-    private boolean match_yn;
+    @Column(name = "match_yn")
+    private boolean matchYn;
 
     @Column
     private String lat;
@@ -53,8 +36,10 @@ public class Errand extends BaseModel {
     private String address;
 
     @Temporal(TemporalType.TIMESTAMP)
-    private Date reserv_date;
+    @Column(name = "reserv_date")
+    private Date reservDate;
 
     @Temporal(TemporalType.TIMESTAMP)
-    private Date match_date;
+    @Column(name="match_date")
+    private Date matchDate;
 }

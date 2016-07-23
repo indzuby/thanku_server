@@ -5,60 +5,45 @@ import lombok.*;
 import javax.persistence.*;
 import java.util.Date;
 
+
 /**
- * Created by micky on 2016. 6. 21..
+ *
+ * @author micky
  */
 @EqualsAndHashCode(callSuper = true)
 @Data
 @RequiredArgsConstructor
-@Table
 @Entity
-public class Quick extends BaseModel {
+@Table
+@DiscriminatorValue("Q")
+public class Quick extends OrderObject {
 
-    @Column
-    private String start_lat;
 
-    @Column
-    private String start_lon;
+    // 배달 시작 위치
+    @Column(name = "start_lat")
+    private String startLat;
+    @Column(name = "start_lon")
+    private String startLon;
+    // 배달 시작 주소
+    @Column(name = "start_addr")
+    private String startAddr;
 
-    @Column
-    private String start_addr;
+    // 배달 대상 위치
+    @Column(name = "end_lat")
+    private String endLat;
+    @Column(name = "end_lon")
+    private String endLon;
+    // 배달 대상 주소
+    @Column(name = "end_addr")
+    private String endAddr;
 
-    @Column
-    private String end_lat;
 
-    @Column
-    private String end_lon;
+    // 예약
+    @Column(name = "reserv_yn")
+    private boolean reservYn;
 
-    @Column
-    private String end_addr;
-
-    @Column
-    private String order_msg;
-
-    @Column
-    private int price;
-
-    @Column
-    private int add_price;
-
-    @Column
-    private boolean match_yn;
-
-    @Column
-    private boolean reserv_yn;
-
-    @ManyToOne
-    @JoinColumn(name = "order_id")
-    private User order;
-
-    @ManyToOne
-    @JoinColumn(name = "rider_id")
-    private User rider;
 
     @Temporal(TemporalType.TIMESTAMP)
-    private Date match_date;
-
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date reserv_date;
+    @Column(name = "reserv_date")
+    private Date reservDate;
 }

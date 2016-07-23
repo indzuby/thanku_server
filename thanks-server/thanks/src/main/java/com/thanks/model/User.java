@@ -1,15 +1,9 @@
 package com.thanks.model;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
-import com.thanks.util.LengthUtil;
 import lombok.*;
-import org.hibernate.validator.constraints.Email;
-import org.hibernate.validator.constraints.Length;
-import org.hibernate.validator.constraints.NotBlank;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -52,7 +46,6 @@ public class User extends BaseModel {
         }
     }
 
-
     @Column(unique = true, length = 20)
     private String phone;
 
@@ -74,9 +67,9 @@ public class User extends BaseModel {
     @Enumerated(EnumType.STRING)
     private SignUpType signUpType;
 
-
-    @OneToMany
-    @JoinColumn(name = "order_id")
-    private List<Quick> quickList = new ArrayList<>();
-
+//    /**
+//     * 주문 목록
+//     */
+//    @OneToMany(fetch = FetchType.LAZY, mappedBy = "order")
+//    private List<OrderObject> orderList;
 }

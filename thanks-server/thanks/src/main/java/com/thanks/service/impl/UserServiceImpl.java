@@ -1,13 +1,17 @@
 package com.thanks.service.impl;
 
+import com.thanks.model.OrderObject;
 import com.thanks.model.User;
+import com.thanks.repository.OrderObjectRepository;
 import com.thanks.repository.UserRepository;
+import com.thanks.service.OrderService;
 import com.thanks.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -18,6 +22,9 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     UserRepository userRepository;
+
+    @Autowired
+    OrderService orderService;
 
     @Autowired
     BCryptPasswordEncoder bCryptPasswordEncoder;
@@ -68,5 +75,15 @@ public class UserServiceImpl implements UserService {
     @Override
     public User findByPhone(String phone) {
         return userRepository.findByPhone(phone);
+    }
+
+    @Override
+    public List<List<OrderObject>> getUserBasket(User user) {
+        return orderService.getUserOrderList(user, false);
+    }
+
+    @Override
+    public List<List<OrderObject>> getUserOrder(User user) {
+        return orderService.getUserOrderList(user, true);
     }
 }

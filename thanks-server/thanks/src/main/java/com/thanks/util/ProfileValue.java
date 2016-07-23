@@ -8,5 +8,6 @@ public class ProfileValue {
     public static final String TEST = "test";
     public static final String PRODUCTION = "production";
     public static final String ZUBY="zuby";
+    public static final String DEVCLEAR = "devclear";
 
 }

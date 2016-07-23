@@ -16,6 +16,8 @@ import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 
+import java.lang.annotation.Annotation;
+
 /**
  * Created by micky on 2016. 7. 23..
  */
@@ -35,6 +37,7 @@ public class UserAspect {
         log.debug("user {}", authentication);
         User user = (null == authentication)?null:userService.findById(authentication.getName());
         int userIndex = AspectUtil.findParameterIndexByAnnotationType(proceedingJoinPoint, CurrentUser.class);
+
         args[userIndex] = user;
 
         return proceedingJoinPoint.proceed(args);
