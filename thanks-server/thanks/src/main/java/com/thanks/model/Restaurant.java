@@ -44,4 +44,6 @@ public class Restaurant extends BaseModel{
             inverseJoinColumns = {@JoinColumn(name = "category_id",nullable = false)})
     private Set<Category> categories = new HashSet<>();
 
+    double lat;
+    double lon;
 }
