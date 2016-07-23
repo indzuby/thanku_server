@@ -1,5 +1,6 @@
 package com.thanks.model;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
 import com.thanks.util.LengthUtil;
 import lombok.*;
 import org.hibernate.validator.constraints.Email;
@@ -37,7 +38,18 @@ public class User extends BaseModel {
     }
 
     public enum SignUpType {
-        EMAIL, FACEBOOK, KAKAO
+        EMAIL, FACEBOOK, KAKAO;
+
+        @Override
+        public String toString() {
+            return this.name();
+        }
+
+        @JsonCreator
+        public static SignUpType fromText(String s) {
+
+            return SignUpType.valueOf(s.toUpperCase());
+        }
     }
 
 
@@ -48,11 +60,8 @@ public class User extends BaseModel {
 
     private String name;
 
-    @Column(unique = true, nullable = false, length = 50)
+    @Column(unique = true, length = 50)
     private String email;
-
-    @Column(unique = true)
-    private String socialId;
 
     @Column(unique = true)
     private String socialAccessToken;

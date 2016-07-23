@@ -26,6 +26,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         Pattern p = Pattern.compile("[0-9]{2,3}-[0-9]{3,4}-[0-9]{4}");
+
         User u;
         if(p.matcher(username).find())
             u = userService.findByPhone(username);

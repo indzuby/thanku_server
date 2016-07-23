@@ -75,7 +75,7 @@ public class WebSecurityConfigure extends WebSecurityConfigurerAdapter{
                 .ignoring()
                 .antMatchers(HttpMethod.POST, "/api/rider")
                 .antMatchers(HttpMethod.POST, "/api/user")
-                .antMatchers(HttpMethod.GET, "/activateUser")
+                .antMatchers(HttpMethod.POST, "/api/user/social")
                 .antMatchers(HttpMethod.GET, "/resetPassword")
                 .antMatchers(HttpMethod.GET, "/days/*/withoutAuth")
                 .antMatchers(HttpMethod.GET, "/days/*/itinerary/withoutAuth")
