@@ -35,7 +35,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User find(Long key) {
-        return userRepository.getOne(key);
+        return userRepository.findOne(key);
     }
 
     @Transactional

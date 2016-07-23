@@ -70,7 +70,7 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public OrderObject toOrderList(User user, Long id) {
-        OrderObject orderObject = orderRepository.getOne(id);
+        OrderObject orderObject = orderRepository.findOne(id);
         orderObject.setOrderYn(true);
         orderObject.setUpdatedTime(Calendar.getInstance().getTime());
         return orderRepository.saveAndFlush(orderObject);
