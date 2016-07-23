@@ -46,6 +46,8 @@ public class UserController {
         return userService.add(user.toUser());
     }
 
+    @RequestMapping(method = RequestMethod.GET, value="")
+    @ResponseBody
     public User getMyInfo(@CurrentUser User user) {
         return user;
     }
