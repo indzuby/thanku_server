@@ -27,10 +27,10 @@ public class Errand extends OrderObject {
     private boolean matchYn;
 
     @Column
-    private String lat;
+    private double lat;
 
     @Column
-    private String lon;
+    private double lon;
 
     @Column
     private String address;

@@ -21,18 +21,18 @@ public class Quick extends OrderObject {
 
     // 배달 시작 위치
     @Column(name = "start_lat")
-    private String startLat;
+    private double startLat;
     @Column(name = "start_lon")
-    private String startLon;
+    private double startLon;
     // 배달 시작 주소
     @Column(name = "start_addr")
     private String startAddr;
 
     // 배달 대상 위치
     @Column(name = "end_lat")
-    private String endLat;
+    private double endLat;
     @Column(name = "end_lon")
-    private String endLon;
+    private double endLon;
     // 배달 대상 주소
     @Column(name = "end_addr")
     private String endAddr;

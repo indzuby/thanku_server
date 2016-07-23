@@ -28,6 +28,6 @@ public class Buy extends OrderObject {
     @Column(nullable = false, length = 50)
     private String address;
 
-    private String lat;
-    private String lon;
+    private double lat;
+    private double lon;
 }
