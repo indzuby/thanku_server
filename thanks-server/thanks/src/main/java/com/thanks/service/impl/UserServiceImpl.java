@@ -35,7 +35,9 @@ public class UserServiceImpl implements UserService {
     @Transactional
     @Override
     public User add(User data) {
-        data.setPassword(bCryptPasswordEncoder.encode(data.getPassword()));
+        if(data.getPassword() != null) {
+            data.setPassword(bCryptPasswordEncoder.encode(data.getPassword()));
+        }
         return userRepository.saveAndFlush(data);
     }
 
@@ -63,4 +65,8 @@ public class UserServiceImpl implements UserService {
         return userRepository.findByEmail(email);
     }
 
+    @Override
+    public User findByPhone(String phone) {
+        return userRepository.findByPhone(phone);
+    }
 }

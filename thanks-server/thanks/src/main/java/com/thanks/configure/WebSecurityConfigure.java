@@ -75,6 +75,8 @@ public class WebSecurityConfigure extends WebSecurityConfigurerAdapter {
                 .ignoring()
                 .antMatchers(HttpMethod.POST, "/api/rider")
                 .antMatchers(HttpMethod.POST, "/api/user")
+                .antMatchers(HttpMethod.POST, "/api/user/social")
+                .antMatchers(HttpMethod.GET, "/resetPassword")
                 .antMatchers(HttpMethod.GET, "/images/**")
                 .antMatchers(HttpMethod.GET, "/api/adv/**");
         // @formatter:on

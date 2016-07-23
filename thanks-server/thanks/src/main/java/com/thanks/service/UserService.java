@@ -12,4 +12,5 @@ public interface UserService extends ServiceBase<User> {
 
     User findByEmail(String username);
 
+    User findByPhone(String username);
 }

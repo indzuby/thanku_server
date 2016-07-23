@@ -22,9 +22,10 @@
 header:
 ```
 Content-type  application/json; charset=utf-8
+Authorization Basic dGhhbmtzQ2xpZW50SWQ6dGhhbmtzU2VjcmV0
 ```
 
-param : 
+param :
 ``` json
 {
     "email": "ksmail13@gmail.com",
@@ -52,14 +53,56 @@ response
     "quickList": []
 }
 ```
-#### login (get a AccessToken)
-/auth/token
-header : 
+
+#### social signup
 ```
-Content-Type application/x-www-form-urlencoded
+/api/user/social
+```
+header:
+```
+Content-type  application/json; charset=utf-8
+Authorization Basic dGhhbmtzQ2xpZW50SWQ6dGhhbmtzU2VjcmV0
 ```
 
-param : 
+param :
+```json
+{
+    "token": "tokenstring",
+    "name": "김민규",  // optional
+    "type": "facebook",
+    "email": "ksmail12@gmail.com" // optional
+}
+```
+
+response :
+
+```json
+{
+  "id": 3,
+  "createTime": null,
+  "updatedTime": null,
+  "phone": null,
+  "password": null,
+  "name": "김민규",
+  "email": "ksmail12@gmail.com",
+  "socialId": null,
+  "socialAccessToken": null,
+  "profilePath": "/profile/default.png",
+  "type": null,
+  "signUpType": "FACEBOOK",
+  "quickList": []
+}
+```
+
+#### login (get a AccessToken)
+/auth/token
+header :
+```
+Content-Type application/x-www-form-urlencoded
+Authorization Basic dGhhbmtzQ2xpZW50SWQ6dGhhbmtzU2VjcmV0
+```
+
+param :
 ```
 scope=read write delete&client_secret=thanksSecret&username=ksmail13@gmail.com&client_id=thanksClientId&password=12345
 ```
