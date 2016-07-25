@@ -62,7 +62,7 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public List<List<OrderObject>> getUserOrderList(User user, boolean isOrdered) {
         ArrayList<List<OrderObject>> userBasket = new ArrayList<>();
-        for(OrderObject.OrderType t : OrderObject.OrderType.values()) {
+        for (OrderObject.OrderType t : OrderObject.OrderType.values()) {
             userBasket.add(orderRepository.findByOrderIdAndOrderYnAndObjectType(user.getId(), isOrdered, t.value));
         }
         return userBasket;
@@ -88,12 +88,16 @@ public class OrderServiceImpl implements OrderService {
         Date now = new Date();
 
         int price = 0;
+        int deliveryPrice = 0;
         for (OrderObject obj : orderObjectList) {
             price += obj.getPrice() + obj.getAddPrice();
+            deliveryPrice += obj.getAddPrice();
             sb.append(obj.getComment()).append("/");
         }
-        sb.deleteCharAt(sb.length()-1);
+        sb.deleteCharAt(sb.length() - 1);
         OrderInfo orderInfo = new OrderInfo(price, sb.toString(), df.format(now), orderObjectList.size(), user);
+        orderInfo.setDeliveryPrice(deliveryPrice);
+        orderInfo.setState(OrderInfo.OrderState.PENDING);
         orderInfo.setCreateTime(now);
         orderInfo.setUpdatedTime(now);
         orderInfoRepository.saveAndFlush(orderInfo);
@@ -130,7 +134,7 @@ public class OrderServiceImpl implements OrderService {
         OrderInfo info = orderInfoRepository.findOne(id);
 
         ArrayList<List<OrderObject>> groupItem = new ArrayList<>();
-        for(OrderObject.OrderType t : OrderObject.OrderType.values()) {
+        for (OrderObject.OrderType t : OrderObject.OrderType.values()) {
             groupItem.add(orderRepository.findByOrderYnAndObjectTypeAndOrderInfo(true, t.value, id));
         }
         info.setGroupItems(groupItem);
