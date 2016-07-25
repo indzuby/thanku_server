@@ -48,7 +48,7 @@ public class Restaurant extends BaseModel{
     double lat;
     double lon;
 
-    @OneToMany(mappedBy = "restaurant_id",cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "restaurant",cascade = CascadeType.ALL)
     List<RestaurantMenu> menuList;
 
 }

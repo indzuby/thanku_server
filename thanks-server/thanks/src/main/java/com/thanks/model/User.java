@@ -85,11 +85,8 @@ public class User extends BaseModel {
     @Column
     private String address;
 
-    @ColumnDefault("1")
-    private boolean smsReceiveYn;
-    @ColumnDefault("1")
-    private boolean emailReceiveYn;
-    @ColumnDefault("1")
-    private boolean pushReceiveYn;
+    private boolean smsReceiveYn = true;
+    private boolean emailReceiveYn = true;
+    private boolean pushReceiveYn = true;
 
 }

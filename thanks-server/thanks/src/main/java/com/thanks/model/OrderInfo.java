@@ -2,10 +2,7 @@ package com.thanks.model;
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.RequiredArgsConstructor;
+import lombok.*;
 import org.hibernate.annotations.ColumnDefault;
 
 import javax.persistence.*;
@@ -15,18 +12,23 @@ import java.util.List;
 /**
  * Created by micky on 2016. 7. 24..
  */
+@EqualsAndHashCode(callSuper = true)
 @Data
-@NoArgsConstructor
+@RequiredArgsConstructor
 @Entity
 @Table
 @JsonAutoDetect
 public class OrderInfo extends BaseModel{
 
-    private enum OrderState {
+    public enum OrderState {
         PENDING,MATCH,COMPLETE;
     }
 
     private long price;
+
+    private long deliveryPrice;
+
+    private long totalPrice;
 
     private String comment;
 
@@ -35,8 +37,7 @@ public class OrderInfo extends BaseModel{
     private int count;
 
     @Enumerated(EnumType.STRING)
-    @ColumnDefault("PENDING")
-    private OrderState state = OrderState.PENDING;
+    private OrderState state ;
 
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "order_id")
