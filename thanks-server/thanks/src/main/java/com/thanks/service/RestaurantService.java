@@ -2,6 +2,7 @@ package com.thanks.service;
 
 import com.thanks.model.Category;
 import com.thanks.model.Restaurant;
+import com.thanks.model.RestaurantMenu;
 
 import java.util.List;
 

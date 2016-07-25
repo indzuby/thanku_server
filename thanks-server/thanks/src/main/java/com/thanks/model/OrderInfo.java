@@ -6,6 +6,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
+import org.hibernate.annotations.ColumnDefault;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -21,6 +22,10 @@ import java.util.List;
 @JsonAutoDetect
 public class OrderInfo extends BaseModel{
 
+    private enum OrderState {
+        PENDING,MATCH,COMPLETE;
+    }
+
     private long price;
 
     private String comment;
@@ -28,6 +33,10 @@ public class OrderInfo extends BaseModel{
     private String orderDate;
 
     private int count;
+
+    @Enumerated(EnumType.STRING)
+    @ColumnDefault("PENDING")
+    private OrderState state = OrderState.PENDING;
 
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "order_id")

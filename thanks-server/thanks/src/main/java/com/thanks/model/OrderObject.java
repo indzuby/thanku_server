@@ -106,10 +106,14 @@ public abstract class OrderObject extends BaseModel {
     @Column(name="object_type", nullable = false, updatable=false, insertable = false)
     private String objectType;
 
-    @Lob
+        @Lob
     private String comment;
 
 
     @Column(name="orderinfo_id")
     private Long orderInfo;
+
+    @OneToOne
+    @JoinColumn(name = "review_id")
+    private Review review;
 }
