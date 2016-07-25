@@ -28,4 +28,10 @@ public class RestaurantController {
     public List<Restaurant> findRestaurantByCategory(@PathVariable Long category){
         return restaurantService.findByCategory(category);
     }
+
+    @RequestMapping(method = RequestMethod.GET, value = "/{id}")
+    @ResponseBody
+    public Restaurant find(@PathVariable Long id){
+        return restaurantService.find(id);
+    }
 }

@@ -6,6 +6,7 @@ import lombok.RequiredArgsConstructor;
 
 import javax.persistence.*;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -46,4 +47,8 @@ public class Restaurant extends BaseModel{
 
     double lat;
     double lon;
+
+    @OneToMany(mappedBy = "restaurant_id",cascade = CascadeType.ALL)
+    List<RestaurantMenu> menuList;
+
 }
