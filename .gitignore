@@ -4,3 +4,7 @@ thanks-server/.idea/*
 *.iws
 thanks-server/thanks/build/*
 *.class
+.idea/compiler.xml
+.idea/vcs.xml
+.idea/workspace.xml
+.idea/copyright/profiles_settings.xml
