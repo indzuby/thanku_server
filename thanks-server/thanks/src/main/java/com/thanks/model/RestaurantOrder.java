@@ -8,6 +8,7 @@ import javax.persistence.OneToOne;
 
 /**
  * 레스토랑의 주문
+ * @author micky
  */
 @Data
 @DiscriminatorValue("R")
@@ -19,4 +20,6 @@ public class RestaurantOrder extends OrderObject {
      */
     @OneToOne(orphanRemoval = true)
     Restaurant restaurant;
+
+
 }

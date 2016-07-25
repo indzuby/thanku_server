@@ -12,7 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by micky on 2016. 7. 24..
+ * 실제 주문 정보
  */
 @Data
 @NoArgsConstructor
