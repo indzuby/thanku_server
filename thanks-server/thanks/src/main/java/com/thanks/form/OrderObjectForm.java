@@ -27,7 +27,7 @@ public class OrderObjectForm extends BaseForm{
 
     private int price;
 
-    private int add_price;
+    private int addPrice;
 
     private double lon;
 

@@ -6,3 +6,7 @@ thanks-server/thanks/build/*
 *.class
 thanks-server/out/*
 thanks-server/thanks/.gradle/*
+.idea/compiler.xml
+.idea/vcs.xml
+.idea/workspace.xml
+.idea/copyright/profiles_settings.xml
