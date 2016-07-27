@@ -24,9 +24,7 @@ public class RestaurantMenu extends BaseModel{
     private int price;
     private String url;
 
-    @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "restaurant_id")
-    private Restaurant restaurant;
+    private long restaurantId;
 
     private String comment;
 

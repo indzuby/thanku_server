@@ -2,7 +2,6 @@ package com.thanks.service;
 
 import com.thanks.model.Category;
 import com.thanks.model.Restaurant;
-import com.thanks.model.RestaurantMenu;
 
 import java.util.List;
 
@@ -15,4 +14,5 @@ public interface RestaurantService extends ServiceBase<Restaurant>{
 
     List<Restaurant> findByCategory(Long id);
 
+    List<Restaurant> findByCategoryAndDistance(Long id, double lat, double lon);
 }

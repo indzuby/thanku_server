@@ -22,9 +22,7 @@ import javax.persistence.*;
 public class RestaurantImage extends BaseModel {
 
 
-    @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "restaurant_id")
-    private Restaurant restaurant;
+    private Long restaurantId;
 
     private String url;
 

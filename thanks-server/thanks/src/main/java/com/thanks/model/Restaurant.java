@@ -38,6 +38,8 @@ public class Restaurant extends BaseModel{
 
     int callCount;
 
+    @Lob
+    String description;
 
 
     @ManyToMany(fetch = FetchType.LAZY)
@@ -61,4 +63,7 @@ public class Restaurant extends BaseModel{
     @Transient
     List<Review> reviewList;
 
+    @JsonProperty
+    @Transient
+    double avgScore;
 }

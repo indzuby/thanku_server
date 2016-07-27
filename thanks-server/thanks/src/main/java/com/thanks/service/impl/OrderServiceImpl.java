@@ -62,7 +62,7 @@ public class OrderServiceImpl implements OrderService {
     public List<OrderObject> getUserOrderList(User user, boolean isOrdered) {
 //        ArrayList<List<OrderObject>> userBasket = new ArrayList<>();
 //        for (OrderObject.OrderType t : OrderObject.OrderType.values()) {
-//            userBasket.add(orderRepository.findByOrderIdAndOrderYnAndObjectType(user.getId(), isOrdered, t.value));
+//            userBasket.add(restaurantOrderRepository.findByOrderIdAndOrderYnAndObjectType(user.getId(), isOrdered, t.value));
 //        }
         return orderRepository.findByOrderIdAndOrderYn(user.getId(),isOrdered);
     }
@@ -113,7 +113,7 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public List<OrderInfo> userOrderInfo(User user) {
         List<OrderInfo> o = orderInfoRepository.findAllByOrderIdOrderByUpdatedTimeDesc(user.getId());
-//        List info = orderRepository.getOrderInfo(user.getId());
+//        List info = restaurantOrderRepository.getOrderInfo(user.getId());
 //
 //        for (int i = 0; i < info.size(); i++) {
 //            Object[] in = (Object[])info.get(i);

@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by zuby on 2016. 7. 22..
@@ -23,10 +24,13 @@ public class RestaurantController {
     public List<Category> findCategoryAll(){
         return restaurantService.findCategoryAll();
     }
+
     @RequestMapping(method = RequestMethod.GET, value = "/category/{category}")
     @ResponseBody
-    public List<Restaurant> findRestaurantByCategory(@PathVariable Long category){
-        return restaurantService.findByCategory(category);
+    public List<Restaurant> findRestaurantByCategory(@PathVariable Long category,@RequestParam Map<String, String> params){
+        double lat = Double.parseDouble(params.get("lat"));
+        double lon = Double.parseDouble(params.get("lon"));
+        return restaurantService.findByCategoryAndDistance(category,lat,lon);
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/{id}")
