@@ -77,7 +77,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<List<OrderObject>> getUserBasket(User user) {
+    public List<OrderObject> getUserBasket(User user) {
         return orderService.getUserOrderList(user, false);
     }
 

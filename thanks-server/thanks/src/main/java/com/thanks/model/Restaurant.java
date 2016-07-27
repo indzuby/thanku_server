@@ -1,5 +1,6 @@
 package com.thanks.model;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.RequiredArgsConstructor;
@@ -48,7 +49,16 @@ public class Restaurant extends BaseModel{
     double lat;
     double lon;
 
-    @OneToMany(mappedBy = "restaurant",cascade = CascadeType.ALL)
+    @JsonProperty
+    @Transient
     List<RestaurantMenu> menuList;
+
+    @JsonProperty
+    @Transient
+    List<RestaurantImage> imageList;
+
+    @JsonProperty
+    @Transient
+    List<Review> reviewList;
 
 }

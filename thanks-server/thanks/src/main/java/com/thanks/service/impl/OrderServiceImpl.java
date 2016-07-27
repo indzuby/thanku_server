@@ -13,7 +13,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -60,12 +59,12 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public List<List<OrderObject>> getUserOrderList(User user, boolean isOrdered) {
-        ArrayList<List<OrderObject>> userBasket = new ArrayList<>();
-        for (OrderObject.OrderType t : OrderObject.OrderType.values()) {
-            userBasket.add(orderRepository.findByOrderIdAndOrderYnAndObjectType(user.getId(), isOrdered, t.value));
-        }
-        return userBasket;
+    public List<OrderObject> getUserOrderList(User user, boolean isOrdered) {
+//        ArrayList<List<OrderObject>> userBasket = new ArrayList<>();
+//        for (OrderObject.OrderType t : OrderObject.OrderType.values()) {
+//            userBasket.add(orderRepository.findByOrderIdAndOrderYnAndObjectType(user.getId(), isOrdered, t.value));
+//        }
+        return orderRepository.findByOrderIdAndOrderYn(user.getId(),isOrdered);
     }
 
     @Override
@@ -133,11 +132,6 @@ public class OrderServiceImpl implements OrderService {
     public OrderInfo getInfo(Long id) {
         OrderInfo info = orderInfoRepository.findOne(id);
 
-        ArrayList<List<OrderObject>> groupItem = new ArrayList<>();
-        for (OrderObject.OrderType t : OrderObject.OrderType.values()) {
-            groupItem.add(orderRepository.findByOrderYnAndObjectTypeAndOrderInfo(true, t.value, id));
-        }
-        info.setGroupItems(groupItem);
         return info;
     }
 }

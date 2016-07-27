@@ -1,5 +1,6 @@
 package com.thanks.form;
 
+import com.sun.istack.internal.NotNull;
 import com.thanks.model.User;
 import com.thanks.util.LengthUtil;
 import lombok.Data;
@@ -8,7 +9,6 @@ import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.NotBlank;
 
-import javax.validation.constraints.NotNull;
 
 /**
  * Created by micky on 2016. 7. 18..

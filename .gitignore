@@ -6,3 +6,5 @@ thanks-server/thanks/build/*
 *.class
 thanks-server/out/*
 thanks-server/thanks/.gradle/*
+thanks-server/thanks/.idea/libraries/Gradle__org_springframework_data_spring_data_jpa_1_9_4_RELEASE.xml
+thanks-server/thanks/.idea/

@@ -1,12 +1,11 @@
 package com.thanks.model;
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import lombok.*;
-import org.hibernate.annotations.ColumnDefault;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.RequiredArgsConstructor;
 
 import javax.persistence.*;
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -45,32 +44,6 @@ public class OrderInfo extends BaseModel{
 
     @OneToMany(mappedBy = "orderInfo", cascade = CascadeType.ALL)
     private List<OrderObject> items;
-
-    @JsonProperty
-    @Transient
-    private List<List<OrderObject>> groupItems;
-
-    public OrderInfo setGroupItems() {
-        int i;
-        ArrayList<List<OrderObject>> group = new ArrayList<>();
-        group.add(new ArrayList<>());
-        group.add(new ArrayList<>());
-        group.add(new ArrayList<>());
-        group.add(new ArrayList<>());
-
-        for(OrderObject obj : items) {
-            for (i = 0; i < OrderObject.OrderType.values().length; i++) {
-                OrderObject.OrderType type = OrderObject.OrderType.values()[i];
-                if (type.value.equals(obj.getObjectType())) {
-                    break;
-                }
-            }
-
-            group.get(i).add(obj);
-        }
-        setGroupItems(group);
-        return this;
-    }
 
     public OrderInfo(long price, String comment, String orderDate, int count, User order) {
         this.price = price;

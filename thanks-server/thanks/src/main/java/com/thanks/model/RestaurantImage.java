@@ -7,7 +7,7 @@ import lombok.RequiredArgsConstructor;
 import javax.persistence.*;
 
 /**
- * Created by zuby on 2016. 7. 22..
+ * Created by rlawn on 2016-07-27.
  */
 @EqualsAndHashCode(callSuper = true)
 @Data
@@ -19,18 +19,15 @@ import javax.persistence.*;
         @AttributeOverride(name = "updatedTime", column = @Column)
 })
 @Entity
-public class Category extends BaseModel{
-    //한식&중식 일&돈까스&회 치킨&피자 보쌈&족발 야식 탕&찜 도시락 프렌차이즈 카페&디저트 편의점
-    public enum CategoryType{
-        KOFOOD,JPFOOD,CHICKEN,PIGFOOD,NIGHTFOOD,SOUPFOOD,LUNCHFOOD,FRANCHISE,CAFE,CONVENIENCE
-    }
+public class RestaurantImage extends BaseModel {
 
 
-    @Column(nullable = false)
-    private String name;
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "restaurant_id")
+    private Restaurant restaurant;
+
+    private String url;
 
     private int priority;
 
-    @Enumerated(EnumType.STRING)
-    private CategoryType type;
 }

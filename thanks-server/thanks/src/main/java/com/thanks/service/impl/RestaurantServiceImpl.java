@@ -3,6 +3,8 @@ package com.thanks.service.impl;
 import com.thanks.model.Category;
 import com.thanks.model.Restaurant;
 import com.thanks.repository.CategoryRepository;
+import com.thanks.repository.RestaurantImageRepository;
+import com.thanks.repository.RestaurantMenuRepository;
 import com.thanks.repository.RestaurantRepository;
 import com.thanks.service.RestaurantService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +24,13 @@ public class RestaurantServiceImpl implements RestaurantService {
 
     @Autowired
     RestaurantRepository restaurantRepository;
+
+    @Autowired
+    RestaurantMenuRepository menuRepository;
+
+    @Autowired
+    RestaurantImageRepository imageRepository;
+
 
     @Override
     public List<Category> findCategoryAll() {
@@ -44,7 +53,10 @@ public class RestaurantServiceImpl implements RestaurantService {
 
     @Override
     public Restaurant find(Long key) {
-        return restaurantRepository.findOne(key);
+        Restaurant restaurant = restaurantRepository.findOne(key);
+        restaurant.setImageList(imageRepository.findByRestaurantIdOrderByPriorityAsc(key));
+        restaurant.setMenuList(menuRepository.findByRestaurantId(key));
+        return restaurant;
     }
 
     @Override

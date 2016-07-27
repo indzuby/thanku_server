@@ -3,13 +3,13 @@ package com.thanks.model;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.RequiredArgsConstructor;
-import org.hibernate.annotations.ColumnDefault;
 
 import javax.persistence.*;
 
 /**
- * Created by zuby on 2016. 7. 25..
+ * Created by rlawn on 2016-07-27.
  */
+
 @EqualsAndHashCode(callSuper = true)
 @Data
 @RequiredArgsConstructor
@@ -20,18 +20,17 @@ import javax.persistence.*;
         @AttributeOverride(name = "updatedTime", column = @Column)
 })
 @Entity
-public class Review extends BaseModel {
-
-    @Lob
-    private String comment;
+public class RestaurantOrderMenu extends BaseModel {
+    @ManyToOne
+    @JoinColumn(name = "order_id")
+    RestaurantOrder restaurantOrder;
 
     @ManyToOne
-    @JoinColumn(name = "user_id")
-    private User writer;
+    @JoinColumn(name = "menu_id")
+    RestaurantMenu restaurantMenu;
 
-    @ColumnDefault("5")
-    private int score;
+    int count;
 
-    private long orderObjectId;
+    int price;
 
 }

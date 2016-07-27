@@ -20,11 +20,14 @@ import javax.persistence.*;
 })
 @Entity
 public class RestaurantMenu extends BaseModel{
-    String name;
-    int price;
-    String url;
+    private String name;
+    private int price;
+    private String url;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "restaurant_id")
-    Restaurant restaurant;
+    private Restaurant restaurant;
+
+    private String comment;
+
 }

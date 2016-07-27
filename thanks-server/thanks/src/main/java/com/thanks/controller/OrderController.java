@@ -3,14 +3,14 @@ package com.thanks.controller;
 import com.thanks.form.OrderObjectForm;
 import com.thanks.model.OrderInfo;
 import com.thanks.model.OrderObject;
+import com.thanks.model.Review;
 import com.thanks.model.User;
 import com.thanks.service.OrderService;
+import com.thanks.service.ReviewService;
 import com.thanks.util.annotation.CurrentUser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 /**
  *
@@ -23,9 +23,14 @@ public class OrderController {
     @Autowired
     private OrderService orderService;
 
+    @Autowired
+    ReviewService reviewService;
+
+
     @RequestMapping(method = RequestMethod.GET, value = "/{id}")
     @ResponseBody
     public OrderInfo getOrderInfo(@PathVariable Long id) {
+
         return orderService.getInfo(id);
     }
 
@@ -61,4 +66,16 @@ public class OrderController {
         orderService.remove(id);
     }
 
+    @RequestMapping(method = RequestMethod.POST, value="/review")
+    @ResponseBody
+    public Review addReview(@CurrentUser User user, @RequestBody Review review) {
+        review.setUser(user);
+        return reviewService.add(review);
+    }
+    @RequestMapping(method = RequestMethod.PUT, value="/review")
+    @ResponseBody
+    public Review editReview(@CurrentUser User user, @RequestBody Review review) {
+        review.setUser(user);
+        return reviewService.update(review.getId(),review);
+    }
 }
