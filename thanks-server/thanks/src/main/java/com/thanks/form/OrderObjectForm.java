@@ -10,7 +10,7 @@ import lombok.EqualsAndHashCode;
 import java.util.Date;
 
 /**
- * api에서 요청할 때 사용하기 위한 폼
+ * 주문 정보를 수신하기 위한 폼
  */
 @EqualsAndHashCode(callSuper = true)
 @Data

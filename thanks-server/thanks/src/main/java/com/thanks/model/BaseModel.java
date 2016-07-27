@@ -28,4 +28,19 @@ public abstract class BaseModel {
     @Column
     @LastModifiedDate
     protected Date updatedTime;
+
+    public Date getCreateTime() {
+        if(createTime == null) {
+            createTime = new Date();
+        }
+
+        return createTime;
+    }
+
+    public Date getUpdatedTime() {
+        if (updatedTime == null) {
+            updatedTime = new Date();
+        }
+        return updatedTime;
+    }
 }

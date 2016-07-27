@@ -4,7 +4,7 @@ import org.modelmapper.ModelMapper;
 import org.modelmapper.convention.MatchingStrategies;
 
 /**
- * Created by micky on 2016. 7. 18..
+ * api에서 요청할 때 사용하기 위한 폼
  */
 public abstract class BaseForm {
     public static ModelMapper modelMapper = new ModelMapper();
