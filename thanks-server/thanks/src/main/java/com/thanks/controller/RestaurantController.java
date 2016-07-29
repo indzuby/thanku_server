@@ -1,7 +1,6 @@
 package com.thanks.controller;
 
-import com.thanks.model.Category;
-import com.thanks.model.Restaurant;
+import com.thanks.model.*;
 import com.thanks.service.RestaurantService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -37,5 +36,23 @@ public class RestaurantController {
     @ResponseBody
     public Restaurant find(@PathVariable Long id){
         return restaurantService.find(id);
+    }
+
+    @RequestMapping(method = RequestMethod.GET, value = "/{id}/menu")
+    @ResponseBody
+    public List<RestaurantMenu> findMenuById(@PathVariable Long id){
+        return restaurantService.findMenuListByRestaurantId(id);
+    }
+
+    @RequestMapping(method = RequestMethod.GET, value = "/{id}/review")
+    @ResponseBody
+    public List<Review> findReviewById(@PathVariable Long id){
+        return restaurantService.findReviewListByRestaurantId(id);
+    }
+
+    @RequestMapping(method = RequestMethod.GET, value = "/{id}/info")
+    @ResponseBody
+    public RestaurantInfo  findInfo(@PathVariable Long id){
+        return restaurantService.findRestaurantInfo(id);
     }
 }

@@ -1,10 +1,9 @@
 package com.thanks.service.impl;
 
-import com.thanks.model.OrderInfo;
-import com.thanks.model.OrderObject;
-import com.thanks.model.User;
+import com.thanks.model.*;
 import com.thanks.repository.OrderInfoRepository;
 import com.thanks.repository.OrderRepository;
+import com.thanks.repository.RestaurantOrderMenuRepository;
 import com.thanks.service.OrderService;
 import com.thanks.util.AssertUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,6 +27,9 @@ public class OrderServiceImpl implements OrderService {
 
     @Autowired
     OrderInfoRepository orderInfoRepository;
+
+    @Autowired
+    RestaurantOrderMenuRepository orderMenuRepository;
 
     @Override
     public List<OrderObject> findAll() {
@@ -67,12 +69,24 @@ public class OrderServiceImpl implements OrderService {
         return orderRepository.findByOrderIdAndOrderYn(user.getId(),isOrdered);
     }
 
+    @Transactional
     @Override
     public OrderObject toOrderList(User user, Long id) {
         OrderObject orderObject = orderRepository.findOne(id);
         orderObject.setOrderYn(true);
         orderObject.setUpdatedTime(Calendar.getInstance().getTime());
         return orderRepository.saveAndFlush(orderObject);
+    }
+    @Transactional
+    @Override
+    public OrderObject addRestaurantOrder(OrderObject orderObject) {
+        orderRepository.save(orderObject);
+        RestaurantOrder restaurantOrder = (RestaurantOrder) orderObject;
+        for(RestaurantOrderMenu orderMenu : restaurantOrder.getMenuList())
+            orderMenu.setRestaurantOrder(orderObject.getId());
+
+        orderMenuRepository.save(restaurantOrder.getMenuList());
+        return orderObject;
     }
 
     @Transactional

@@ -39,7 +39,10 @@ public class OrderController {
     public OrderObject addOrder(@CurrentUser User user, @RequestBody OrderObjectForm orderObjectForm) {
         OrderObject orderObject = orderObjectForm.toOrderObject();
         orderObject.setOrder(user);
-        return orderService.add(orderObject);
+        if(orderObject.getType() == OrderObject.OrderType.RESTAURANT) {
+            return orderService.addRestaurantOrder(orderObject);
+        }else
+            return orderService.add(orderObject);
     }
 
     @RequestMapping(method = RequestMethod.PUT, value="/{id}")
@@ -69,13 +72,13 @@ public class OrderController {
     @RequestMapping(method = RequestMethod.POST, value="/review")
     @ResponseBody
     public Review addReview(@CurrentUser User user, @RequestBody Review review) {
-        review.setUser(user);
+        review.setWriter(user);
         return reviewService.add(review);
     }
     @RequestMapping(method = RequestMethod.PUT, value="/review")
     @ResponseBody
     public Review editReview(@CurrentUser User user, @RequestBody Review review) {
-        review.setUser(user);
+        review.setWriter(user);
         return reviewService.update(review.getId(),review);
     }
 }

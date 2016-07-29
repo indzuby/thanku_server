@@ -52,6 +52,7 @@ public class ReviewServiceImpl implements ReviewService {
     @Override
     public Review update(Long key, Review data) {
         data.setId(key);
+        data.setUpdatedTime(new Date());
         return reviewRepository.saveAndFlush(data);
     }
 

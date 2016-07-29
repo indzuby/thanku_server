@@ -51,19 +51,17 @@ public class Restaurant extends BaseModel{
     double lat;
     double lon;
 
-    @JsonProperty
-    @Transient
-    List<RestaurantMenu> menuList;
+    @OneToOne(orphanRemoval = true)
+    @JoinColumn(name = "information_id")
+    private RestaurantInfo information;
 
     @JsonProperty
     @Transient
     List<RestaurantImage> imageList;
-
-    @JsonProperty
-    @Transient
-    List<Review> reviewList;
-
     @JsonProperty
     @Transient
     double avgScore;
+    @JsonProperty
+    @Transient
+    int reviewCount;
 }

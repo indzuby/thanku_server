@@ -7,9 +7,8 @@ import lombok.RequiredArgsConstructor;
 import javax.persistence.*;
 
 /**
- * Created by rlawn on 2016-07-27.
+ * Created by rlawn on 2016-07-29.
  */
-
 @EqualsAndHashCode(callSuper = true)
 @Data
 @RequiredArgsConstructor
@@ -20,16 +19,12 @@ import javax.persistence.*;
         @AttributeOverride(name = "updatedTime", column = @Column)
 })
 @Entity
-public class RestaurantOrderMenu extends BaseModel {
-    @Column(name = "order_id",nullable = true)
-    Long restaurantOrder;
+public class RestaurantInfo extends BaseModel {
+    String notification;
+    @Lob
+    String description;
 
-    @ManyToOne
-    @JoinColumn(name = "menu_id",nullable = true)
-    RestaurantMenu restaurantMenu;
+    String businessHours;
 
-    int count;
-
-    int price;
-
+    String address;
 }

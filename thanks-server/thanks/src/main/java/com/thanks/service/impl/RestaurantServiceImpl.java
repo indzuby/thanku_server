@@ -33,6 +33,9 @@ public class RestaurantServiceImpl implements RestaurantService {
     @Autowired
     OrderRepository orderRepository;
 
+    @Autowired
+    RestaurantInfoRepository infoRepository;
+
 
     @Override
     public List<Category> findCategoryAll() {
@@ -66,15 +69,42 @@ public class RestaurantServiceImpl implements RestaurantService {
     public Restaurant find(Long key) {
         Restaurant restaurant = restaurantRepository.findOne(key);
         restaurant.setImageList(imageRepository.findByRestaurantIdOrderByPriorityAsc(key));
-        restaurant.setMenuList(menuRepository.findByRestaurantId(key));
+//        restaurant.setMenuList(menuRepository.findByRestaurantId(key));
         List<RestaurantOrder> list = restaurantOrderRepository.findByRestaurantId(key);
-        List<Review> reviews = new ArrayList<>();
         double score = 0;
+        int size = 0 ;
+        for(RestaurantOrder order : list) {
+            OrderObject object = orderRepository.findOne(order.getId());
+            if(object.getReview()!=null) {
+                score += object.getReview().getScore();
+                size++;
+            }
+        }
+        restaurant.setReviewCount(size);
+        if(size>0)
+            restaurant.setAvgScore(score / size);
+
+        return restaurant;
+    }
+
+    @Override
+    public RestaurantInfo findRestaurantInfo(Long id) {
+        return infoRepository.findOne(id);
+    }
+
+    @Override
+    public List<RestaurantMenu> findMenuListByRestaurantId(Long id) {
+        return menuRepository.findByRestaurantId(id);
+    }
+
+    @Override
+    public List<Review> findReviewListByRestaurantId(Long id) {
+        List<RestaurantOrder> list = restaurantOrderRepository.findByRestaurantId(id);
+        List<Review> reviews = new ArrayList<>();
         for(RestaurantOrder order : list) {
             OrderObject object = orderRepository.findOne(order.getId());
             if(object.getReview()!=null) {
                 reviews.add(object.getReview());
-                score += object.getReview().getScore();
             }
         }
         Collections.sort(reviews, new Comparator<Review>() {
@@ -83,9 +113,7 @@ public class RestaurantServiceImpl implements RestaurantService {
                 return o2.getScore() - o1.getScore();
             }
         });
-        restaurant.setReviewList(reviews);
-        restaurant.setAvgScore(score/reviews.size());
-        return restaurant;
+        return reviews;
     }
 
     @Override

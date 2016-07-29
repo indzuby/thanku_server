@@ -14,10 +14,12 @@ public interface OrderService extends ServiceBase<OrderObject> {
 
     OrderObject toOrderList(User user, Long id);
 
+    OrderObject addRestaurantOrder(OrderObject orderObject);
 
     void toAllOrder(User user);
 
     List<OrderInfo> userOrderInfo(User user);
 
     OrderInfo getInfo(Long id);
+
 }

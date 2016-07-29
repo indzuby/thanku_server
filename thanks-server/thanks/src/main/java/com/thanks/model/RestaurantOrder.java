@@ -1,6 +1,7 @@
 package com.thanks.model;
 
 import lombok.Data;
+import lombok.RequiredArgsConstructor;
 
 import javax.persistence.*;
 import java.util.List;
@@ -10,6 +11,8 @@ import java.util.List;
  * @author micky
  */
 @Data
+@Table
+@RequiredArgsConstructor
 @DiscriminatorValue("R")
 @Entity
 public class RestaurantOrder extends OrderObject {
@@ -22,9 +25,9 @@ public class RestaurantOrder extends OrderObject {
     private Restaurant restaurant;
 
 
-    @OneToMany(fetch = FetchType.LAZY)
-    @JoinTable(name = "order_id")
+    @OneToMany(mappedBy = "restaurantOrder",cascade = CascadeType.ALL)
     private List<RestaurantOrderMenu> menuList;
 
     private int price;
+
 }

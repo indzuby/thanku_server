@@ -1,13 +1,11 @@
 package com.thanks.form;
 
-import com.thanks.model.OrderObject;
-import com.thanks.model.Restaurant;
-import com.thanks.model.RestaurantOrder;
-import com.thanks.model.User;
+import com.thanks.model.*;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 import java.util.Date;
+import java.util.List;
 
 /**
  * 주문 정보를 수신하기 위한 폼
@@ -60,7 +58,9 @@ public class OrderObjectForm extends BaseForm{
     private Date reservDate;
 
     //Restaurant
-    private Long restaurant;
+    private Long restaurantId;
+
+    private List<RestaurantOrderMenu> menuList;
 
 
     public OrderObject toOrderObject() {
@@ -68,7 +68,7 @@ public class OrderObjectForm extends BaseForm{
 
         if(orderObject instanceof RestaurantOrder) {
             Restaurant r = new Restaurant();
-            r.setId(restaurant);
+            r.setId(restaurantId);
             ((RestaurantOrder)orderObject).setRestaurant(r);
         }
 

@@ -27,8 +27,6 @@ public class OrderInfo extends BaseModel{
 
     private long deliveryPrice;
 
-    private long totalPrice;
-
     private String comment;
 
     private String orderDate;
