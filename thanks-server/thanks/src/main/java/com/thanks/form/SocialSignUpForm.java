@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import org.hibernate.validator.constraints.NotBlank;
 
+import java.util.Date;
 
 
 /**
@@ -46,6 +47,10 @@ public class SocialSignUpForm extends BaseForm{
             u.setType(User.UserType.RIDER);
         else
             u.setType(User.UserType.USER);
+        Date date = new Date();
+
+        u.setCreateTime(date);
+        u.setUpdatedTime(date);
         return u;
     }
 }

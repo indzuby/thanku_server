@@ -10,6 +10,7 @@ import com.thanks.util.annotation.CurrentUser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -68,6 +69,7 @@ public class UserController {
     @RequestMapping(method = RequestMethod.POST, value="/update")
     @ResponseBody
     public User update(@RequestBody User user) {
+        user.setUpdatedTime(new Date());
         return userService.update(user.getId(),user);
     }
 
