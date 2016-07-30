@@ -8,3 +8,8 @@ thanks-server/out/*
 thanks-server/thanks/.gradle/*
 thanks-server/thanks/.idea/libraries/Gradle__org_springframework_data_spring_data_jpa_1_9_4_RELEASE.xml
 thanks-server/thanks/.idea/
+.idea/compiler.xml
+.idea/vcs.xml
+.idea/workspace.xml
+.idea/copyright/profiles_settings.xml
+>>>>>>> 366037e1e9e67ab1b5f336159e952fea73218ce0

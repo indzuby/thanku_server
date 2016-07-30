@@ -19,5 +19,7 @@ public interface UserService extends ServiceBase<User> {
 
     List<OrderObject> getUserBasket(User user);
 
+    User findBySocial(String token);
+
     List<OrderInfo> getUserOrder(User user);
 }
