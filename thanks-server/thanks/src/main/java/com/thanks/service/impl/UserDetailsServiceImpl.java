@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.regex.Pattern;
@@ -19,6 +20,9 @@ import java.util.regex.Pattern;
 @Slf4j
 @Service
 public class UserDetailsServiceImpl implements UserDetailsService {
+
+    @Autowired
+    private BCryptPasswordEncoder bCryptPasswordEncoder;
 
     @Autowired
     UserService userService;
@@ -32,8 +36,10 @@ public class UserDetailsServiceImpl implements UserDetailsService {
             u = userService.findByPhone(username);
         else if(emailPattern.matcher(username).find())
             u = userService.findByEmail(username);
-        else
+        else {
             u = userService.findBySocial(username);
+            u.setPassword(bCryptPasswordEncoder.encode(username));
+        }
 
         log.info("username : {}", username);
         AssertUtil.notNull(u, String.format("User %s doesn't exist", username));
