@@ -10,3 +10,4 @@ thanks-server/thanks/.gradle/*
 .idea/vcs.xml
 .idea/workspace.xml
 .idea/copyright/profiles_settings.xml
+thanks-server/.gradle
