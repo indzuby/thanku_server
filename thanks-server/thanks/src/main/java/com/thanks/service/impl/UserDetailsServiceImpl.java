@@ -25,13 +25,15 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        Pattern p = Pattern.compile("[0-9]{2,3}-[0-9]{3,4}-[0-9]{4}");
-
+        Pattern phonePattern = Pattern.compile("[0-9]{2,3}-[0-9]{3,4}-[0-9]{4}");
+        Pattern emailPattern = Pattern.compile("[a-zA-Z0-9.-]+@[a-zA-Z0-9-]+.[a-zA-Z]{2,3}(.[a-zA-z]{2,3})?");
         User u;
-        if(p.matcher(username).find())
+        if(phonePattern.matcher(username).find())
             u = userService.findByPhone(username);
-        else
+        else if(emailPattern.matcher(username).find())
             u = userService.findByEmail(username);
+        else
+            u = userService.findBySocial(username);
 
         log.info("username : {}", username);
         AssertUtil.notNull(u, String.format("User %s doesn't exist", username));

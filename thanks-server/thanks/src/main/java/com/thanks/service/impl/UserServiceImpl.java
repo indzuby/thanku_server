@@ -77,6 +77,11 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public User findBySocial(String token) {
+        return userRepository.findBySocialAccessToken(token);
+    }
+
+    @Override
     public List<List<OrderObject>> getUserBasket(User user) {
         return orderService.getUserOrderList(user, false);
     }
