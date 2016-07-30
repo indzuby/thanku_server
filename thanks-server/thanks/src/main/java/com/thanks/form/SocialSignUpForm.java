@@ -3,10 +3,8 @@ package com.thanks.form;
 import com.thanks.model.User;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import lombok.NonNull;
 import org.hibernate.validator.constraints.NotBlank;
 
-import javax.validation.constraints.NotNull;
 
 
 /**
@@ -17,13 +15,11 @@ import javax.validation.constraints.NotNull;
 public class SocialSignUpForm extends BaseForm{
 
 
-    @NotNull
     @NotBlank
     private String socialAccessToken;
 
-    @NotNull
     @NotBlank
-    private User.SignUpType type;
+    private User.SignUpType signUpType;
 
     private String name;
 
@@ -31,9 +27,25 @@ public class SocialSignUpForm extends BaseForm{
 
     private String phone;
 
+    private String profilePath;
+
+    private String nickname;
+
+
+    public User toRider() {
+        return toUser(true);
+    }
 
     public User toUser() {
+        return toUser(false);
+    }
+
+    public User toUser(boolean isRider) {
         User u = modelMapper.map(this, User.class);
+        if(isRider)
+            u.setType(User.UserType.RIDER);
+        else
+            u.setType(User.UserType.USER);
         return u;
     }
 }
