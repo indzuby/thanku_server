@@ -3,7 +3,6 @@ package com.thanks.service;
 import com.thanks.model.OrderInfo;
 import com.thanks.model.OrderObject;
 import com.thanks.model.User;
-import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.List;
 
@@ -18,9 +17,9 @@ public interface UserService extends ServiceBase<User> {
 
     User findByPhone(String username);
 
-    User findBySocial(String token);
+    List<OrderObject> getUserBasket(User user);
 
-    List<List<OrderObject>> getUserBasket(User user);
+    User findBySocial(String token);
 
     List<OrderInfo> getUserOrder(User user);
 }

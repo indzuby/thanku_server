@@ -35,7 +35,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User find(Long key) {
-        return userRepository.getOne(key);
+        return userRepository.findOne(key);
     }
 
     @Transactional
@@ -82,7 +82,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<List<OrderObject>> getUserBasket(User user) {
+    public List<OrderObject> getUserBasket(User user) {
         return orderService.getUserOrderList(user, false);
     }
 

@@ -8,9 +8,9 @@ import com.thanks.model.User;
 import com.thanks.service.UserService;
 import com.thanks.util.annotation.CurrentUser;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -56,7 +56,7 @@ public class UserController {
 
     @RequestMapping(method= RequestMethod.GET, value="/basket")
     @ResponseBody
-    public List<List<OrderObject>> getBasket(@CurrentUser User user) {
+    public List<OrderObject> getBasket(@CurrentUser User user) {
         return userService.getUserBasket(user);
     }
 
@@ -69,6 +69,7 @@ public class UserController {
     @RequestMapping(method = RequestMethod.POST, value="/update")
     @ResponseBody
     public User update(@RequestBody User user) {
+        user.setUpdatedTime(new Date());
         return userService.update(user.getId(),user);
     }
 

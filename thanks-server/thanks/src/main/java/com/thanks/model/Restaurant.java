@@ -1,5 +1,6 @@
 package com.thanks.model;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.RequiredArgsConstructor;
@@ -37,6 +38,8 @@ public class Restaurant extends BaseModel{
 
     int callCount;
 
+    @Lob
+    String description;
 
 
     @ManyToMany(fetch = FetchType.LAZY)
@@ -48,7 +51,17 @@ public class Restaurant extends BaseModel{
     double lat;
     double lon;
 
-    @OneToMany(mappedBy = "restaurant",cascade = CascadeType.ALL)
-    List<RestaurantMenu> menuList;
+    @OneToOne(orphanRemoval = true)
+    @JoinColumn(name = "information_id")
+    private RestaurantInfo information;
 
+    @JsonProperty
+    @Transient
+    List<RestaurantImage> imageList;
+    @JsonProperty
+    @Transient
+    double avgScore;
+    @JsonProperty
+    @Transient
+    int reviewCount;
 }

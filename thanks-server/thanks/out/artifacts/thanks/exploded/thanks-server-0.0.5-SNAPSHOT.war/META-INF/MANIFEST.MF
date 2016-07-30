@@ -1,0 +1,5 @@
+Manifest-Version: 1.0
+Title: Reqeust And Header Tester
+Version: 1.0
+Main-Class: com.thanks.Application
+

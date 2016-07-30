@@ -23,15 +23,15 @@ import javax.persistence.*;
 public class Review extends BaseModel {
 
     @Lob
-    String comment;
+    private String comment;
 
     @ManyToOne
     @JoinColumn(name = "user_id")
-    User user;
+    private User writer;
 
     @ColumnDefault("5")
-    int score;
+    private int score;
 
-    long orderObjectId;
+    private long orderObjectId;
 
 }

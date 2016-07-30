@@ -1,10 +1,9 @@
 package com.thanks.service.impl;
 
-import com.thanks.model.OrderInfo;
-import com.thanks.model.OrderObject;
-import com.thanks.model.User;
+import com.thanks.model.*;
 import com.thanks.repository.OrderInfoRepository;
 import com.thanks.repository.OrderRepository;
+import com.thanks.repository.RestaurantOrderMenuRepository;
 import com.thanks.service.OrderService;
 import com.thanks.util.AssertUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,7 +12,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -29,6 +27,9 @@ public class OrderServiceImpl implements OrderService {
 
     @Autowired
     OrderInfoRepository orderInfoRepository;
+
+    @Autowired
+    RestaurantOrderMenuRepository orderMenuRepository;
 
     @Override
     public List<OrderObject> findAll() {
@@ -60,20 +61,32 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public List<List<OrderObject>> getUserOrderList(User user, boolean isOrdered) {
-        ArrayList<List<OrderObject>> userBasket = new ArrayList<>();
-        for (OrderObject.OrderType t : OrderObject.OrderType.values()) {
-            userBasket.add(orderRepository.findByOrderIdAndOrderYnAndObjectType(user.getId(), isOrdered, t.value));
-        }
-        return userBasket;
+    public List<OrderObject> getUserOrderList(User user, boolean isOrdered) {
+//        ArrayList<List<OrderObject>> userBasket = new ArrayList<>();
+//        for (OrderObject.OrderType t : OrderObject.OrderType.values()) {
+//            userBasket.add(restaurantOrderRepository.findByOrderIdAndOrderYnAndObjectType(user.getId(), isOrdered, t.value));
+//        }
+        return orderRepository.findByOrderIdAndOrderYn(user.getId(),isOrdered);
     }
 
+    @Transactional
     @Override
     public OrderObject toOrderList(User user, Long id) {
-        OrderObject orderObject = orderRepository.getOne(id);
+        OrderObject orderObject = orderRepository.findOne(id);
         orderObject.setOrderYn(true);
         orderObject.setUpdatedTime(Calendar.getInstance().getTime());
         return orderRepository.saveAndFlush(orderObject);
+    }
+    @Transactional
+    @Override
+    public OrderObject addRestaurantOrder(OrderObject orderObject) {
+        orderRepository.save(orderObject);
+        RestaurantOrder restaurantOrder = (RestaurantOrder) orderObject;
+        for(RestaurantOrderMenu orderMenu : restaurantOrder.getMenuList())
+            orderMenu.setRestaurantOrder(orderObject.getId());
+
+        orderMenuRepository.save(restaurantOrder.getMenuList());
+        return orderObject;
     }
 
     @Transactional
@@ -114,7 +127,7 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public List<OrderInfo> userOrderInfo(User user) {
         List<OrderInfo> o = orderInfoRepository.findAllByOrderIdOrderByUpdatedTimeDesc(user.getId());
-//        List info = orderRepository.getOrderInfo(user.getId());
+//        List info = restaurantOrderRepository.getOrderInfo(user.getId());
 //
 //        for (int i = 0; i < info.size(); i++) {
 //            Object[] in = (Object[])info.get(i);
@@ -133,11 +146,6 @@ public class OrderServiceImpl implements OrderService {
     public OrderInfo getInfo(Long id) {
         OrderInfo info = orderInfoRepository.findOne(id);
 
-        ArrayList<List<OrderObject>> groupItem = new ArrayList<>();
-        for (OrderObject.OrderType t : OrderObject.OrderType.values()) {
-            groupItem.add(orderRepository.findByOrderYnAndObjectTypeAndOrderInfo(true, t.value, id));
-        }
-        info.setGroupItems(groupItem);
         return info;
     }
 }
