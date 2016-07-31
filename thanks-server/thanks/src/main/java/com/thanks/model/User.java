@@ -4,7 +4,6 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.RequiredArgsConstructor;
-import org.hibernate.annotations.ColumnDefault;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -69,7 +68,7 @@ public class User extends BaseModel {
     @Column(unique = true)
     private String socialAccessToken;
 
-    private String profilePath = "/images/profile/default.png";
+    private String profilePath = "http://localhost:8080/images/profile/default.png";
 
     @Enumerated(EnumType.STRING)
     private UserType type;
