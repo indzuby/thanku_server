@@ -1,7 +1,9 @@
 package com.thanks.service.impl;
 
 import com.thanks.model.Advertisement;
+import com.thanks.model.PushInformation;
 import com.thanks.repository.AdvertisementRepository;
+import com.thanks.repository.redis.PushRepository;
 import com.thanks.service.AdvertisementService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

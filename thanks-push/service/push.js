@@ -9,6 +9,7 @@ function sendMessage(keys, message, data) {
     gcmMessage.addNotification(message);
     gcmMessage.addData(data);
 
+    // 메시지 객체, 푸시를 보낼 토큰키 목록, 에러시 재시도할 횟수, 콜백
     sender.send(gcmMessage, {registrationTokens:keys}, 10, function(err, response) {
         if(err) console.error(err);
         else console.log(response);

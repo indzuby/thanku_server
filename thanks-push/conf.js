@@ -5,10 +5,16 @@ var maria = {
     db:'thanks'
 };
 
-var redis = '//192.168.99.100:6379';
+var redis = {
+    host : '192.168.99.100',
+    port : 6379,
+    retryStrategy : function(time) {
+
+    }
+};
 
 module.exports = {
     maria:maria,
     redis:redis,
-    gcmKey:''
+    gcmKey:'AIzaSyC11NoX9MteRlPfhbx31rMChjARn7_enZo'
 };

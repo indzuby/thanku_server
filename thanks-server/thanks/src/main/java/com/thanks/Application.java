@@ -14,6 +14,7 @@ import org.springframework.data.auditing.DateTimeProvider;
 import org.springframework.data.domain.AuditorAware;
 import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
+import org.springframework.data.redis.repository.configuration.EnableRedisRepositories;
 import org.springframework.data.web.config.EnableSpringDataWebSupport;
 import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
@@ -33,6 +34,7 @@ import java.util.GregorianCalendar;
 @EnableSpringDataWebSupport
 @SpringBootApplication
 @EnableAutoConfiguration
+@EnableRedisRepositories(basePackages = "com.thanks.repository")
 @Slf4j
 @EnableJpaAuditing
 public class Application {
