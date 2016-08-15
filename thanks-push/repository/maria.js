@@ -1,9 +1,7 @@
-var FS = require('fs');
-var MARIA_INFO = JSON.parse(FS.readFileSync('../maria.conf', {encoding:'utf-8'}));
-
+var dbParam = require('../conf');
 var MariaClient = require('mariasql');
 
-var client = new MariaClient(MARIA_INFO);
+var client = new MariaClient(dbParam);
 
 
 // token을 가지는 사용자를 찾는다 없으면 maria에서 데이터를 가져온다
@@ -22,3 +20,7 @@ function findUser(token, success, error) {
             }
         });
 }
+
+module.exports= {
+    findUser:findUser
+};

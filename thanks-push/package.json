@@ -13,7 +13,7 @@
     "jade": "~1.11.0",
     "morgan": "~1.7.0",
     "serve-favicon": "~2.3.0",
-    "redis":"~2.6.2"
-
+    "ioredis":"~2.2.0",
+    "node-gcm":"~0.14.4"
   }
 }
