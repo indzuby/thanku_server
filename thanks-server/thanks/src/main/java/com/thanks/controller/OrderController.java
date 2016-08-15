@@ -12,6 +12,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 /**
  *
  * @author micky
@@ -80,5 +82,17 @@ public class OrderController {
     public Review editReview(@CurrentUser User user, @RequestBody Review review) {
         review.setWriter(user);
         return reviewService.update(review.getId(),review);
+    }
+
+    @RequestMapping(method=RequestMethod.GET, value="/location")
+    @ResponseBody
+    public List<OrderObject> getOrderByLocation(@RequestParam Double lat, @RequestParam Double lon) {
+        return orderService.getOrderByLocation(lat, lon);
+    }
+
+    @RequestMapping(method=RequestMethod.GET, value="/{order}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void setOrderRider(@CurrentUser User user, @PathVariable Long order) {
+        orderService.setOrderRider(user, order);
     }
 }

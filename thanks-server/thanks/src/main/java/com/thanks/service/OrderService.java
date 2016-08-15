@@ -22,4 +22,7 @@ public interface OrderService extends ServiceBase<OrderObject> {
 
     OrderInfo getInfo(Long id);
 
+    List<OrderObject> getOrderByLocation(Double lat, Double lon);
+
+    void setOrderRider(User user, Long order);
 }

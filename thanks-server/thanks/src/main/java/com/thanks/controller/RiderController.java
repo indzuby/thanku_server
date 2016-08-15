@@ -34,8 +34,9 @@ public class RiderController {
     @RequestMapping(method = RequestMethod.POST, value="/update")
     @ResponseBody
     public User update(@RequestBody User user) {
-
         return userService.update(user.getId(),user);
     }
+
+
 
 }

@@ -21,7 +21,12 @@ public class PushRepositoryImpl implements PushRepository {
     private Gson gson = new Gson();
 
     @Override
-    public void pushData(PushInformation information) {
-        template.convertAndSend("push", gson.toJson(information));
+    public void pushOrderData(PushInformation information) {
+        template.convertAndSend("order", gson.toJson(information));
+    }
+
+    @Override
+    public void pushSelect(PushInformation information) {
+        template.convertAndSend("select", gson.toJson(information));
     }
 }

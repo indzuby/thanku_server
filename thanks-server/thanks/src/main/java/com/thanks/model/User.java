@@ -88,4 +88,5 @@ public class User extends BaseModel {
     private boolean emailReceiveYn = true;
     private boolean pushReceiveYn = true;
 
+    private String pushToken;
 }

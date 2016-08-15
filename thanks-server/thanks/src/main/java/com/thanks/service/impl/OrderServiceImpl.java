@@ -4,6 +4,7 @@ import com.thanks.model.*;
 import com.thanks.repository.OrderInfoRepository;
 import com.thanks.repository.OrderRepository;
 import com.thanks.repository.RestaurantOrderMenuRepository;
+import com.thanks.repository.UserRepository;
 import com.thanks.repository.redis.PushRepository;
 import com.thanks.service.OrderService;
 import com.thanks.util.AssertUtil;
@@ -13,6 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -35,6 +37,9 @@ public class OrderServiceImpl implements OrderService {
     @Autowired
     PushRepository pushRepository;
 
+    @Autowired
+    UserRepository userRepository;
+
     @Override
     public List<OrderObject> findAll() {
         return orderRepository.findAll();
@@ -49,42 +54,8 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public OrderObject add(OrderObject data) {
         PushInformation info = orderObjectToPushInformation(data);
-        pushRepository.pushData(info);
+        pushRepository.pushOrderData(info);
         return orderRepository.saveAndFlush(data);
-    }
-
-    private PushInformation orderObjectToPushInformation(OrderObject data) {
-        PushInformation info;
-        double lat, lon;
-        AndroidNotificationData noti = new AndroidNotificationData();
-
-        noti.setTitle("Thanks");
-        noti.setIcon("ic_launcher");
-
-        if(data instanceof Buy) {
-            Buy order = (Buy) data;
-            noti.setBody("새로운 사다주기 주문이 접수되었습니다.");
-            lat = order.getLat();
-            lon = order.getLon();
-        } else if (data instanceof Quick) {
-            Quick order = (Quick) data;
-            noti.setBody("새로운 퀵 주문이 접수되었습니다.");
-            lat = order.getStartLat();
-            lon = order.getStartLon();
-        } else if(data instanceof Errand){
-            Errand order = (Errand) data;
-            noti.setBody("새로운 심부름 주문이 접수되었습니다.");
-            lat = order.getLat();
-            lon = order.getLon();
-        } else {
-            RestaurantOrder order = (RestaurantOrder) data;
-            lat = order.getRestaurant().getLat();
-            lon = order.getRestaurant().getLon();
-            noti.setBody("새로운 음식배달 주문이 접수되었습니다.");
-        }
-
-        info = new PushInformation(lat, lon, noti, data);
-        return info;
     }
 
     @Transactional
@@ -188,4 +159,78 @@ public class OrderServiceImpl implements OrderService {
 
         return info;
     }
+
+    @Override
+    public List<OrderObject> getOrderByLocation(Double lat, Double lon) {
+        List<OrderObject> objects = new ArrayList<>();
+        objects.addAll(orderRepository.findBuyByLocation(lat, lon, 1.0));
+        objects.addAll(orderRepository.findErrandByLocation(lat, lon, 1.0));
+        objects.addAll(orderRepository.findQuickByLocation(lat, lon, 1.0));
+        objects.addAll(orderRepository.findRestaurantOrderByLocation(lat, lon, 1.0));
+        return objects;
+    }
+
+    @Override
+    public void setOrderRider(User user, Long order) {
+        OrderObject orderObject = orderRepository.getOne(order);
+        User orderer = userRepository.findOne(orderObject.getId());
+        orderObject.setRider(user);
+        orderRepository.save(orderObject);
+
+        PushInformation pushInformation = createSelectNotificationPushInformation(orderer, orderObject);
+        pushRepository.pushSelect(pushInformation);
+    }
+
+    /**
+     * 사용자에게 보낼 푸시 정보
+     * @param target 대상 사용자
+     * @param data 보낼 데이터
+     * @return
+     */
+    private PushInformation createSelectNotificationPushInformation(User target, OrderObject data) {
+        PushInformation info;
+        AndroidNotificationData noti = new AndroidNotificationData();
+
+        noti.setTitle("Thanks");
+        noti.setIcon("ic_launcher");
+        noti.setBody("주문이 접수되었습니다.");
+        info = new PushInformation(target.getPushToken(), noti, data);
+        return info;
+    }
+
+    private PushInformation orderObjectToPushInformation(OrderObject data) {
+        PushInformation info;
+        double lat, lon;
+        AndroidNotificationData noti = new AndroidNotificationData();
+
+        noti.setTitle("Thanks");
+        noti.setIcon("ic_launcher");
+
+        if(data instanceof Buy) {
+            Buy order = (Buy) data;
+            noti.setBody("새로운 사다주기 주문이 접수되었습니다.");
+            lat = order.getLat();
+            lon = order.getLon();
+        } else if (data instanceof Quick) {
+            Quick order = (Quick) data;
+            noti.setBody("새로운 퀵 주문이 접수되었습니다.");
+            lat = order.getStartLat();
+            lon = order.getStartLon();
+        } else if(data instanceof Errand){
+            Errand order = (Errand) data;
+            noti.setBody("새로운 심부름 주문이 접수되었습니다.");
+            lat = order.getLat();
+            lon = order.getLon();
+        } else {
+            RestaurantOrder order = (RestaurantOrder) data;
+            lat = order.getRestaurant().getLat();
+            lon = order.getRestaurant().getLon();
+            noti.setBody("새로운 음식배달 주문이 접수되었습니다.");
+        }
+
+        info = new PushInformation(lat, lon, noti, data);
+        return info;
+    }
+
+
 }

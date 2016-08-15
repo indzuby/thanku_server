@@ -11,11 +11,23 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class PushInformation {
 
-    @NonNull
-    private Double lat;
+    public PushInformation(Double lat, Double lon, NotificationData notification, Object data) {
+        this.lat = lat;
+        this.lon = lon;
+        this.notification = notification;
+        this.data = data;
+    }
 
-    @NonNull
+    public PushInformation(String target, NotificationData notification, Object data) {
+        this.target = target;
+        this.notification = notification;
+        this.data = data;
+    }
+
+    private Double lat;
     private Double lon;
+
+    private String target;
 
     private Double distance = 1.0;
     private String unit = "km";

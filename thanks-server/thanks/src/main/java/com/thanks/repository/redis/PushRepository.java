@@ -8,5 +8,7 @@ import com.thanks.model.PushInformation;
  */
 public interface PushRepository  {
 
-    public void pushData(PushInformation information);
+    public void pushOrderData(PushInformation information);
+
+    public void pushSelect(PushInformation information);
 }
