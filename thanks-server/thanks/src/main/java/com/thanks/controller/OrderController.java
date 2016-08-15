@@ -90,7 +90,7 @@ public class OrderController {
         return orderService.getOrderByLocation(lat, lon);
     }
 
-    @RequestMapping(method=RequestMethod.GET, value="/{order}")
+    @RequestMapping(method=RequestMethod.GET, value="/select/{order}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void setOrderRider(@CurrentUser User user, @PathVariable Long order) {
         orderService.setOrderRider(user, order);
