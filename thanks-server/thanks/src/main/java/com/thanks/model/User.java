@@ -7,6 +7,7 @@ import lombok.RequiredArgsConstructor;
 
 import javax.persistence.*;
 import java.util.Date;
+import java.util.List;
 
 /**
  * Created by micky on 2016. 6. 20..
@@ -84,9 +85,13 @@ public class User extends BaseModel {
     @Column
     private String address;
 
+    @ElementCollection
+    @CollectionTable(name="PUSH", joinColumns = @JoinColumn(name="user_id"))
+    @Column(name="pushToken")
+    private List<String> pushTokens;
+
     private boolean smsReceiveYn = true;
     private boolean emailReceiveYn = true;
     private boolean pushReceiveYn = true;
 
-    private String pushToken;
 }

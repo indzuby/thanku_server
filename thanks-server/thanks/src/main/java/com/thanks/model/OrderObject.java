@@ -96,6 +96,9 @@ public abstract class OrderObject extends BaseModel {
     @Column(name="match_yn")
     private boolean matchYn;
 
+    @Column(name="complete_yn")
+    private boolean completeYn;
+
     /**
      * 계약 성사 시간
      */

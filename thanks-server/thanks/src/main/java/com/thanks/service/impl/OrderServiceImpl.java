@@ -100,6 +100,23 @@ public class OrderServiceImpl implements OrderService {
         return orderObject;
     }
 
+    public List<OrderObject> riderIncompleteOrder(User rider) {
+        return orderRepository.findByRiderAndCompleteYnOrderByCreateTime(rider, false);
+    }
+
+    public List<OrderObject> riderCompleteOrder(User rider) {
+        return orderRepository.findByRiderAndCompleteYnOrderByCreateTime(rider, true);
+    }
+
+    @Override
+    public void orderComplete(User user, Long order) {
+        OrderObject oo = orderRepository.getOne(order);
+        oo.setCompleteYn(true);
+
+        if(user.getId().equals(oo.getOrder().getId()))
+            orderRepository.saveAndFlush(oo);
+    }
+
     @Transactional
     @Override
     public void toAllOrder(User user) {
@@ -163,10 +180,10 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public List<OrderObject> getOrderByLocation(Double lat, Double lon) {
         List<OrderObject> objects = new ArrayList<>();
-        objects.addAll(orderRepository.findBuyByLocation(lat, lon, 1.0));
-        objects.addAll(orderRepository.findErrandByLocation(lat, lon, 1.0));
-        objects.addAll(orderRepository.findQuickByLocation(lat, lon, 1.0));
-        objects.addAll(orderRepository.findRestaurantOrderByLocation(lat, lon, 1.0));
+        objects.addAll(orderRepository.findNotMatchedBuyByLocation(lat, lon, 1.0));
+        objects.addAll(orderRepository.findNotMatchedErrandByLocation(lat, lon, 1.0));
+        objects.addAll(orderRepository.findNotMatchedQuickByLocation(lat, lon, 1.0));
+        objects.addAll(orderRepository.findNotMatchedRestaurantOrderByLocation(lat, lon, 1.0));
         return objects;
     }
 
@@ -175,6 +192,7 @@ public class OrderServiceImpl implements OrderService {
         OrderObject orderObject = orderRepository.getOne(order);
         User orderer = userRepository.findOne(orderObject.getId());
         orderObject.setRider(user);
+        orderObject.setMatchYn(true);
         orderRepository.save(orderObject);
 
         PushInformation pushInformation = createSelectNotificationPushInformation(orderer, orderObject);
@@ -194,7 +212,7 @@ public class OrderServiceImpl implements OrderService {
         noti.setTitle("Thanks");
         noti.setIcon("ic_launcher");
         noti.setBody("주문이 접수되었습니다.");
-        info = new PushInformation(target.getPushToken(), noti, data);
+        info = new PushInformation(target.getPushTokens(), noti, data);
         return info;
     }
 

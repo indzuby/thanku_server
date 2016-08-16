@@ -39,7 +39,7 @@ function initRedisSubscribe() {
                 push.sendOrderMessage(data2, parsed.notification, parsed.data);
             });
         } else if(channel=='select') {
-            push.sendSelectMessage(parsed.target, parsed.notification, parsed.data);
+            push.sendSelectMessage(parsed.tokens, parsed.notification, parsed.data);
         }
     });
 

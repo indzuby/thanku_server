@@ -93,6 +93,15 @@ public class OrderController {
     @RequestMapping(method=RequestMethod.GET, value="/select/{order}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void setOrderRider(@CurrentUser User user, @PathVariable Long order) {
-        orderService.setOrderRider(user, order);
+        if(user.getType() == User.UserType.RIDER) {
+            orderService.setOrderRider(user, order);
+        }
     }
+
+    @RequestMapping(method=RequestMethod.GET, value="/complete/{order}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void orderComplete(@CurrentUser User user, @PathVariable Long order) {
+        orderService.orderComplete(user, order);
+    }
+
 }

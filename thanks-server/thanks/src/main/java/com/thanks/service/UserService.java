@@ -22,4 +22,8 @@ public interface UserService extends ServiceBase<User> {
     User findBySocial(String token);
 
     List<OrderInfo> getUserOrder(User user);
+
+    void addPushToken(User u, String token);
+
+    void removePushToken(User u, String token);
 }

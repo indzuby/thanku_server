@@ -90,4 +90,24 @@ public class UserServiceImpl implements UserService {
     public List<OrderInfo> getUserOrder(User user) {
         return orderService.userOrderInfo(user);
     }
+
+    @Override
+    public void addPushToken(User u, String token) {
+        if(token == null) return;
+
+        if(!u.getPushTokens().contains(token)) {
+            u.getPushTokens().add(token);
+        }
+
+        userRepository.saveAndFlush(u);
+    }
+
+    @Override
+    public void removePushToken(User u, String token) {
+        if(token == null) return;
+
+        u.getPushTokens().remove(token);
+
+        userRepository.saveAndFlush(u);
+    }
 }

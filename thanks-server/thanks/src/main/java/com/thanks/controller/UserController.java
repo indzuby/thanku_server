@@ -8,8 +8,14 @@ import com.thanks.model.User;
 import com.thanks.service.UserService;
 import com.thanks.util.annotation.CurrentUser;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.util.Date;
 import java.util.List;
 
@@ -22,6 +28,8 @@ public class UserController {
 
     @Autowired
     UserService userService;
+
+
 
     @RequestMapping(method = RequestMethod.GET, value = "/{user}")
     @ResponseBody
@@ -50,7 +58,8 @@ public class UserController {
 
     @RequestMapping(method = RequestMethod.GET, value="")
     @ResponseBody
-    public User getMyInfo(@CurrentUser User user) {
+    public User getMyInfo(@CurrentUser User user, @RequestParam(required = false, name = "t") String token) {
+        userService.addPushToken(user, token);
         return user;
     }
 
@@ -73,4 +82,13 @@ public class UserController {
         return userService.update(user.getId(),user);
     }
 
+    @RequestMapping(method=RequestMethod.GET, value="/logout")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void logout(HttpServletRequest request, HttpServletResponse response, @CurrentUser User user, @RequestParam(name="t", required = false) String token) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if(authentication != null) {
+            userService.removePushToken(user, token);
+            new SecurityContextLogoutHandler().logout(request, response, authentication);
+        }
+    }
 }

@@ -4,6 +4,8 @@ import lombok.Data;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 
+import java.util.List;
+
 /**
  * Created by micky on 2016. 8. 15..
  */
@@ -18,8 +20,8 @@ public class PushInformation {
         this.data = data;
     }
 
-    public PushInformation(String target, NotificationData notification, Object data) {
-        this.target = target;
+    public PushInformation(List<String> tokens, NotificationData notification, Object data) {
+        this.tokens = tokens;
         this.notification = notification;
         this.data = data;
     }
@@ -27,7 +29,7 @@ public class PushInformation {
     private Double lat;
     private Double lon;
 
-    private String target;
+    private List<String> tokens;
 
     private Double distance = 1.0;
     private String unit = "km";
