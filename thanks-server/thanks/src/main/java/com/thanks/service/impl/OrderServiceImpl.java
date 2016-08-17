@@ -14,10 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 /**
  * Created by micky on 2016. 7. 23..
@@ -53,8 +50,6 @@ public class OrderServiceImpl implements OrderService {
     @Transactional
     @Override
     public OrderObject add(OrderObject data) {
-        PushInformation info = orderObjectToPushInformation(data);
-        pushRepository.pushOrderData(info);
         return orderRepository.saveAndFlush(data);
     }
 
@@ -101,11 +96,11 @@ public class OrderServiceImpl implements OrderService {
     }
 
     public List<OrderObject> riderIncompleteOrder(User rider) {
-        return orderRepository.findByRiderAndCompleteYnOrderByCreateTime(rider, false);
+        return orderRepository.findByRiderAndCompleteYnOrderByCreateTimeDesc(rider, false);
     }
 
     public List<OrderObject> riderCompleteOrder(User rider) {
-        return orderRepository.findByRiderAndCompleteYnOrderByCreateTime(rider, true);
+        return orderRepository.findByRiderAndCompleteYnOrderByCreateTimeDesc(rider, true);
     }
 
     @Override
@@ -147,6 +142,9 @@ public class OrderServiceImpl implements OrderService {
             obj.setOrderYn(true);
             obj.setUpdatedTime(now);
             obj.setOrderInfo(orderInfo.getId());
+
+            PushInformation info = orderObjectToPushInformation(obj);
+            pushRepository.pushOrderData(info);
         }
 
         orderRepository.save(orderObjectList);
@@ -184,6 +182,14 @@ public class OrderServiceImpl implements OrderService {
         objects.addAll(orderRepository.findNotMatchedErrandByLocation(lat, lon, 1.0));
         objects.addAll(orderRepository.findNotMatchedQuickByLocation(lat, lon, 1.0));
         objects.addAll(orderRepository.findNotMatchedRestaurantOrderByLocation(lat, lon, 1.0));
+        Collections.sort(objects, new Comparator<OrderObject>() {
+            @Override
+            public int compare(OrderObject o1, OrderObject o2) {
+                if(o2.getUpdatedTime().getTime() - o1.getUpdatedTime().getTime() < 0)
+                    return -1;
+                return 1;
+            }
+        });
         return objects;
     }
 
