@@ -1,6 +1,7 @@
 package com.thanks.repository;
 
 import com.thanks.model.OrderInfo;
+import com.thanks.model.User;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -19,6 +20,19 @@ import java.util.List;
 @Repository
 public interface OrderInfoRepository extends JpaRepository<OrderInfo, Long>{
     List<OrderInfo> findAllByOrderIdOrderByUpdatedTimeDesc(Long id);
+
+    OrderInfo findByRiderAndState(User rider, OrderInfo.OrderState state);
+
+    List<OrderInfo> findAllByRiderAndState(User rider, OrderInfo.OrderState state);
+
+    @Query(value = "select order_info.*, " +
+            "(111.1111 * DEGREES(ACOS(COS(RADIANS(:lat)) * COS(RADIANS(lat)) * COS(RADIANS(:lon-lon)) + SIN(RADIANS(:lat)) * SIN(RADIANS(lat))))) as distance " +
+            "from order_info order_info left join order_location order_location on order_info.id = order_location.order_id " +
+            "where order_info.state = 'PENDING' " +
+            "group by order_location.order_id " +
+            "having distance <= :distance " +
+            "order by order_info.create_time DESC", nativeQuery = true)
+    List<OrderInfo> findAllByLocationAndState(@Param("lat") Double lat, @Param("lon") Double lon, @Param("distance") Double distance);
 
 //    @PersistenceContext
 //    EntityManager em;

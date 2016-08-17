@@ -1,6 +1,7 @@
 package com.thanks.controller;
 
 import com.thanks.form.EmailSignUpForm;
+import com.thanks.model.OrderInfo;
 import com.thanks.model.OrderObject;
 import com.thanks.model.User;
 import com.thanks.service.OrderService;
@@ -11,7 +12,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
@@ -65,14 +65,14 @@ public class RiderController {
     @RequestMapping(method=RequestMethod.GET, value="/complete")
     @ResponseStatus(HttpStatus.OK)
     @ResponseBody
-    public List<OrderObject> riderComplete(@CurrentUser User user) {
+    public List<OrderInfo> riderComplete(@CurrentUser User user) {
         return orderService.riderCompleteOrder(user);
     }
 
     @RequestMapping(method=RequestMethod.GET, value="/incomplete")
     @ResponseStatus(HttpStatus.OK)
     @ResponseBody
-    public List<OrderObject> riderIncomplete(@CurrentUser User user) {
-        return orderService.riderIncompleteOrder(user);
+    public OrderInfo riderMatch(@CurrentUser User user) {
+        return orderService.riderMatchedOrder(user);
     }
 }

@@ -7,17 +7,22 @@ router.get('/', function(req, res, next) {
   res.send('test!');
 });
 
-router.get('/location', function(req, res, next) {
-    var lat = req.query.lat;
-    var lon = req.query.lon;
-    var userToken = req.query.token;
+router.post('/location', function(req, res, next) {
+    var lat = req.body.lat;
+    var lon = req.body.lon;
+    var userToken = req.body.token;
     console.log(lat + ' ' + lon);
     if(!(lat && lon)) {
         sendError(400, 'Not location found', next);
-    } else {
-        redis.saveRiderLocation(lat, lon, userToken);
-        res.sendStatus(204);
+        return ;
     }
+    if(!userToken || userToken.trim().length <= 0) {
+        sendError(400, 'Not token found', next);
+        return ;
+    }
+
+    redis.saveRiderLocation(lat, lon, userToken);
+    res.sendStatus(204);
 });
 
 router.post('/push', function(req, res, next) {

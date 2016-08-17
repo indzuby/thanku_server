@@ -14,8 +14,11 @@ subRedis.connect(() => {
 });
 
 function saveRiderLocation(lat, lon, token) {
-    redis.geoadd(['rider', lat, lon, token], function (data, data2) {
-        console.log('add lat : %lf lon : %lf token:%s %s', lat, lon, token, data2);
+    if(!token || token.trim().length <= 0) {
+        return ;
+    }
+    redis.geoadd(['rider', lon, lat, token], function (data) {
+        console.log('add lat : %s lon : %s token:%s save count : %s', lat, lon, token, data);
     });
 }
 
@@ -30,21 +33,39 @@ function initRedisSubscribe() {
 
     // 위에서 수신한(subscribe) 한 메시지를 핸들링한다.
     subRedis.on('message', function(channel, message) {
-        console.log("receive message from channel %s", channel);
+        console.log("receive message from channel %s", channel, message);
         var parsed = JSON.parse(message);
         if(channel == 'order') {
-            // lat lon rad unit notification_data message_data
-            redis.georadius('rider', parsed.lat, parsed.lon, parsed.distance, parsed.unit, function(data, data2, data3) {
-                console.log('err %s users %s', data, data2);
-                push.sendOrderMessage(data2, parsed.notification, parsed.data);
-            });
+            orderPush(parsed);
         } else if(channel=='select') {
-            push.sendSelectMessage(parsed.tokens, parsed.notification, parsed.data);
+            push.sendSelectMessage(parsed.target, parsed.notification, parsed.data);
         }
     });
 
     // 바로 위와 같은 역할 하지만 듣기로는 에러가 발생했을때 여기만 반응한다고 한다.
     subRedis.on('messageBuffer', function (channel, message) {});
+}
+
+function orderPush(parsed) {
+    var tokenSet = new Set();
+    for (var index in parsed.target) {
+        // lat lon rad unit notification_data message_data
+        console.log('lat : %s lon : %s distance : %s', parsed.target[index].lat, parsed.target[index].lon, parsed.distance);
+        redis.georadius('rider', parsed.target[index].lon, parsed.target[index].lat, parsed.distance, parsed.unit, function(data, tokens) {
+            console.log('err %s users %s, %s', data, tokens);
+            tokens = tokens.toString().split(',');
+
+            for(var index in tokens) {
+                tokenSet.add(tokens[index]);
+            }
+            
+            var target = [];
+            tokenSet.forEach(function(tokenKey, tokenValue){target.push(tokenValue);});
+            console.log(tokenSet, target);
+            push.sendOrderMessage(target, parsed.notification, parsed.data);
+        });
+    }
+
 }
 
 function sendMessage(message) {

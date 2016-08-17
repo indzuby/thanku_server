@@ -16,27 +16,27 @@ import java.util.List;
 public interface OrderRepository extends JpaRepository<OrderObject, Long> {
 
     List<OrderObject> findByOrderIdAndOrderYn(Long userId, boolean orderYn);
-
-    List<OrderObject> findByOrderIdAndOrderYnAndObjectType(Long userId, boolean orderYn, String orderType);
-
-    List<OrderObject> findByOrderYnAndObjectTypeAndOrderInfo(boolean orderYn, String orderType, Long orderInfoId);
-
-    List<OrderObject> findByRiderAndCompleteYnOrderByCreateTimeDesc(User rider, boolean completeYn);
-
-    @Query(value = "SELECT sum(price)+sum(add_price) as price, count(*) as count, group_concat(comment SEPARATOR ' / ') comment, updated_time as orderDate FROM order_object WHERE order_id= :user AND order_yn = 1 GROUP BY updated_time ORDER BY updated_time DESC",nativeQuery = true)
-    List<OrderInfo> getOrderInfo(@Param("user")Long userId);
-
-    @Query(value= "select *,(111.1111 * DEGREES(ACOS(COS(RADIANS(:lat)) * COS(RADIANS(lat)) * COS(RADIANS(:lon-lon)) + SIN(RADIANS(:lat)) * SIN(RADIANS(lat))) )) as distance from buy b left join order_object oo on b.id=oo.id where oo.match_yn=0 having distance <= :distance", nativeQuery = true)
-    List<Buy> findNotMatchedBuyByLocation(@Param("lat") Double lat, @Param("lon") Double lon, @Param("distance") Double distance);
-
-    @Query(value= "select *,(111.1111 * DEGREES(ACOS(COS(RADIANS(:lat)) * COS(RADIANS(lat)) * COS(RADIANS(:lon-lon)) + SIN(RADIANS(:lat)) * SIN(RADIANS(lat))) ) )as distance from errand e left join order_object oo on e.id=oo.id where oo.match_yn=0 having distance <= :distance ", nativeQuery = true)
-    List<Errand> findNotMatchedErrandByLocation(@Param("lat") Double lat, @Param("lon") Double lon, @Param("distance") Double distance);
-
-    @Query(value= "select *,( 111.1111 * DEGREES(ACOS(COS(RADIANS(:lat)) * COS(RADIANS(start_lat)) * COS(RADIANS(:lon-start_lon)) + SIN(RADIANS(:lat)) * SIN(RADIANS(start_lat)))) )as distance from quick q left join order_object oo on q.id=oo.id where oo.match_yn=0 having distance <= :distance", nativeQuery = true)
-    List<Quick> findNotMatchedQuickByLocation(@Param("lat") Double lat, @Param("lon") Double lon, @Param("distance") Double distance);
-
-    @Query(value= "select *,(111.1111 * DEGREES(ACOS(COS(RADIANS(:lat)) * COS(RADIANS(lat)) * COS(RADIANS(:lon-lon)) + SIN(RADIANS(:lat)) * SIN(RADIANS(lat)))) )as distance from restaurant_order ro left join order_object oo on ro.id=oo.id left join restaurant r on ro.id=r.id where oo.match_yn=0 having distance <= :distance", nativeQuery = true)
-    List<RestaurantOrder> findNotMatchedRestaurantOrderByLocation(@Param("lat") Double lat, @Param("lon") Double lon, @Param("distance") Double distance);
+//
+//    List<OrderObject> findByOrderIdAndOrderYnAndObjectType(Long userId, boolean orderYn, String orderType);
+//
+//    List<OrderObject> findByOrderYnAndObjectTypeAndOrderInfo(boolean orderYn, String orderType, Long orderInfoId);
+//
+//    List<OrderObject> findByRiderAndCompleteYnOrderByCreateTimeDesc(User rider, boolean completeYn);
+//
+//    @Query(value = "SELECT sum(price)+sum(add_price) as price, count(*) as count, group_concat(comment SEPARATOR ' / ') comment, updated_time as orderDate FROM order_object WHERE order_id= :user AND order_yn = 1 GROUP BY updated_time ORDER BY updated_time DESC",nativeQuery = true)
+//    List<OrderInfo> getOrderInfo(@Param("user")Long userId);
+//
+//    @Query(value= "select *,(111.1111 * DEGREES(ACOS(COS(RADIANS(:lat)) * COS(RADIANS(lat)) * COS(RADIANS(:lon-lon)) + SIN(RADIANS(:lat)) * SIN(RADIANS(lat))) )) as distance from buy b left join order_object oo on b.id=oo.id where oo.match_yn=0 having distance <= :distance", nativeQuery = true)
+//    List<Buy> findNotMatchedBuyByLocation(@Param("lat") Double lat, @Param("lon") Double lon, @Param("distance") Double distance);
+//
+//    @Query(value= "select *,(111.1111 * DEGREES(ACOS(COS(RADIANS(:lat)) * COS(RADIANS(lat)) * COS(RADIANS(:lon-lon)) + SIN(RADIANS(:lat)) * SIN(RADIANS(lat))) ) )as distance from errand e left join order_object oo on e.id=oo.id where oo.match_yn=0 having distance <= :distance ", nativeQuery = true)
+//    List<Errand> findNotMatchedErrandByLocation(@Param("lat") Double lat, @Param("lon") Double lon, @Param("distance") Double distance);
+//
+//    @Query(value= "select *,( 111.1111 * DEGREES(ACOS(COS(RADIANS(:lat)) * COS(RADIANS(start_lat)) * COS(RADIANS(:lon-start_lon)) + SIN(RADIANS(:lat)) * SIN(RADIANS(start_lat)))) )as distance from quick q left join order_object oo on q.id=oo.id where oo.match_yn=0 having distance <= :distance", nativeQuery = true)
+//    List<Quick> findNotMatchedQuickByLocation(@Param("lat") Double lat, @Param("lon") Double lon, @Param("distance") Double distance);
+//
+//    @Query(value= "select *,(111.1111 * DEGREES(ACOS(COS(RADIANS(:lat)) * COS(RADIANS(lat)) * COS(RADIANS(:lon-lon)) + SIN(RADIANS(:lat)) * SIN(RADIANS(lat)))) )as distance from restaurant_order ro left join order_object oo on ro.id=oo.id left join restaurant r on ro.id=r.id where oo.match_yn=0 having distance <= :distance", nativeQuery = true)
+//    List<RestaurantOrder> findNotMatchedRestaurantOrderByLocation(@Param("lat") Double lat, @Param("lon") Double lon, @Param("distance") Double distance);
 
 
 }

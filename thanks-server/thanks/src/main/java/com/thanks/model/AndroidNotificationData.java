@@ -11,4 +11,5 @@ public class AndroidNotificationData extends NotificationData {
     private String title;
     private String body;
     private String icon;
+    private Long id;
 }

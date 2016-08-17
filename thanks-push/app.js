@@ -26,10 +26,10 @@ app.use(function(req, res, next) {
     //     sendError(406, 'Not acceptable', next);
     //     return ;
     // }
-    var contentType = req.get('Content-Type');
-    if('application/json' != contentType) {
-        sendError(400, 'Wrong data type', next);
-    }
+    // var contentType = req.get('Content-Type');
+    // if('application/json' != contentType) {
+    //     sendError(400, 'Wrong data type', next);
+    // }
 
     next();
 });

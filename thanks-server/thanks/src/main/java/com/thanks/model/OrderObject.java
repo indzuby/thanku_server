@@ -73,13 +73,6 @@ public abstract class OrderObject extends BaseModel {
     private User order;
 
     /**
-     * 라이더
-     */
-    @ManyToOne
-    @JoinColumn(name = "rider_id")
-    private User rider;
-
-    /**
      * 가격
      */
     @Column
@@ -90,22 +83,6 @@ public abstract class OrderObject extends BaseModel {
      */
     @Column(name = "addPrice")
     private int addPrice;
-
-    /**
-     * 계약 성사 확인
-     */
-    @Column(name = "match_yn", nullable = false, columnDefinition = "0")
-    private boolean matchYn;
-
-    @Column(name = "complete_yn", nullable = false, columnDefinition = "0")
-    private boolean completeYn;
-
-    /**
-     * 계약 성사 시간
-     */
-    @Temporal(TemporalType.TIMESTAMP)
-    @Column(name = "match_date")
-    private Date matchDate;
 
     @Column(name = "object_type", nullable = false, updatable = false, insertable = false)
     private String objectType;

@@ -11,17 +11,16 @@ import java.util.List;
  */
 @Data
 @RequiredArgsConstructor
-public class PushInformation {
+public class PushInformation<T> {
 
-    public PushInformation(Double lat, Double lon, NotificationData notification, Object data) {
-        this.lat = lat;
-        this.lon = lon;
-        this.notification = notification;
-        this.data = data;
-    }
-
-    public PushInformation(List<String> tokens, NotificationData notification, Object data) {
-        this.tokens = tokens;
+    /**
+     *
+     * @param target 대상의 정보 (gcm 토큰 혹은 위치 정보(lat, lon 페어))
+     * @param notification
+     * @param data
+     */
+    public PushInformation(List<T> target, NotificationData notification, Object data) {
+        this.target = target;
         this.notification = notification;
         this.data = data;
     }
@@ -29,9 +28,9 @@ public class PushInformation {
     private Double lat;
     private Double lon;
 
-    private List<String> tokens;
+    private List<T> target;
 
-    private Double distance = 1.0;
+    private Double distance = 10000.0;
     private String unit = "km";
 
     @NonNull

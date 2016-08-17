@@ -93,7 +93,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void addPushToken(User u, String token) {
-        if(token == null) return;
+        if(token == null || token.isEmpty()) return;
 
         if(!u.getPushTokens().contains(token)) {
             u.getPushTokens().add(token);

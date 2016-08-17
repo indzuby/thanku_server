@@ -84,18 +84,24 @@ public class OrderController {
         return reviewService.update(review.getId(),review);
     }
 
+    /**
+     * 정해진 위치 주변의 주문 내역들을 가져온다
+     * @param lat 위도
+     * @param lon 경도
+     * @param dis 반경 거리
+     * @return
+     */
     @RequestMapping(method=RequestMethod.GET, value="/location")
     @ResponseBody
-    public List<OrderObject> getOrderByLocation(@RequestParam Double lat, @RequestParam Double lon) {
-        return orderService.getOrderByLocation(lat, lon);
+    public List<OrderInfo> getOrderByLocation(@RequestParam Double lat, @RequestParam Double lon, @RequestParam Double dis) {
+        return orderService.getOrderByLocation(lat, lon, dis);
     }
 
     @RequestMapping(method=RequestMethod.GET, value="/select/{order}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void setOrderRider(@CurrentUser User user, @PathVariable Long order) {
         if(user.getType() == User.UserType.RIDER) {
-            boolean success = orderService.setOrderRider(user, order);
-            if(!success) throw new RuntimeException();
+            orderService.setOrderRider(user, order);
         }
     }
 
