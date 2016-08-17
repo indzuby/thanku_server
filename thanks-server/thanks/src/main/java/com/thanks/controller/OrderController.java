@@ -94,7 +94,8 @@ public class OrderController {
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void setOrderRider(@CurrentUser User user, @PathVariable Long order) {
         if(user.getType() == User.UserType.RIDER) {
-            orderService.setOrderRider(user, order);
+            boolean success = orderService.setOrderRider(user, order);
+            if(!success) throw new RuntimeException();
         }
     }
 

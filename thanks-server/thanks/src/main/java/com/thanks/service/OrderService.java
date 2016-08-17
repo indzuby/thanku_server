@@ -24,7 +24,7 @@ public interface OrderService extends ServiceBase<OrderObject> {
 
     List<OrderObject> getOrderByLocation(Double lat, Double lon);
 
-    void setOrderRider(User user, Long order);
+    boolean setOrderRider(User user, Long order);
 
     List<OrderObject> riderIncompleteOrder(User rider);
 

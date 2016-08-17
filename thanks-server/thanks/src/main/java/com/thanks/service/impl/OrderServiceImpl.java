@@ -105,7 +105,7 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public void orderComplete(User user, Long order) {
-        OrderObject oo = orderRepository.getOne(order);
+        OrderObject oo = orderRepository.findOne(order);
         oo.setCompleteYn(true);
 
         if(user.getId().equals(oo.getOrder().getId()))
@@ -194,15 +194,16 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public void setOrderRider(User user, Long order) {
-        OrderObject orderObject = orderRepository.getOne(order);
-        User orderer = userRepository.findOne(orderObject.getId());
+    public boolean setOrderRider(User user, Long order) {
+        OrderObject orderObject = orderRepository.findOne(order);
+        if(orderObject.isMatchYn()) return false;
         orderObject.setRider(user);
         orderObject.setMatchYn(true);
         orderRepository.save(orderObject);
 
-        PushInformation pushInformation = createSelectNotificationPushInformation(orderer, orderObject);
+        PushInformation pushInformation = createSelectNotificationPushInformation(orderObject.getOrder(), orderObject);
         pushRepository.pushSelect(pushInformation);
+        return true;
     }
 
     /**
