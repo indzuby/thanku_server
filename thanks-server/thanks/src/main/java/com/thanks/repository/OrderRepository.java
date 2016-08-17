@@ -32,7 +32,7 @@ public interface OrderRepository extends JpaRepository<OrderObject, Long> {
     @Query(value= "select *,(111.1111 * DEGREES(ACOS(COS(RADIANS(:lat)) * COS(RADIANS(lat)) * COS(RADIANS(:lon-lon)) + SIN(RADIANS(:lat)) * SIN(RADIANS(lat))) ) )as distance from errand e left join order_object oo on e.id=oo.id where oo.match_yn=0 having distance <= :distance ", nativeQuery = true)
     List<Errand> findNotMatchedErrandByLocation(@Param("lat") Double lat, @Param("lon") Double lon, @Param("distance") Double distance);
 
-    @Query(value= "select *,( 111.1111 * DEGREES(ACOS(COS(RADIANS(:lat)) * COS(RADIANS(lat)) * COS(RADIANS(:lon-lon)) + SIN(RADIANS(:lat)) * SIN(RADIANS(lat)))) )as distance from quick q left join order_object oo on q.id=oo.id where oo.match_yn=0 having distance <= :distance", nativeQuery = true)
+    @Query(value= "select *,( 111.1111 * DEGREES(ACOS(COS(RADIANS(:lat)) * COS(RADIANS(start_lat)) * COS(RADIANS(:lon-start_lon)) + SIN(RADIANS(:lat)) * SIN(RADIANS(start_lat)))) )as distance from quick q left join order_object oo on q.id=oo.id where oo.match_yn=0 having distance <= :distance", nativeQuery = true)
     List<Quick> findNotMatchedQuickByLocation(@Param("lat") Double lat, @Param("lon") Double lon, @Param("distance") Double distance);
 
     @Query(value= "select *,(111.1111 * DEGREES(ACOS(COS(RADIANS(:lat)) * COS(RADIANS(lat)) * COS(RADIANS(:lon-lon)) + SIN(RADIANS(:lat)) * SIN(RADIANS(lat)))) )as distance from restaurant_order ro left join order_object oo on ro.id=oo.id left join restaurant r on ro.id=id where oo.match_yn=0 having distance <= :distance", nativeQuery = true)
