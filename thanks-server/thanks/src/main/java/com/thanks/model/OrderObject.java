@@ -38,6 +38,7 @@ public abstract class OrderObject extends BaseModel {
 
         public final String value;
         public final Class<? extends OrderObject> type;
+
         OrderType(String value, Class<? extends OrderObject> type) {
             this.value = value;
             this.type = type;
@@ -61,7 +62,7 @@ public abstract class OrderObject extends BaseModel {
      * 주문 했는지
      * false 일 경우 장바구니에만 등록
      */
-    @Column(name="order_yn")
+    @Column(name = "order_yn")
     private boolean orderYn;
 
     /**
@@ -93,27 +94,27 @@ public abstract class OrderObject extends BaseModel {
     /**
      * 계약 성사 확인
      */
-    @Column(name="match_yn")
+    @Column(name = "match_yn", nullable = false, columnDefinition = "0")
     private boolean matchYn;
 
-    @Column(name="complete_yn")
+    @Column(name = "complete_yn", nullable = false, columnDefinition = "0")
     private boolean completeYn;
 
     /**
      * 계약 성사 시간
      */
     @Temporal(TemporalType.TIMESTAMP)
-    @Column(name="match_date")
+    @Column(name = "match_date")
     private Date matchDate;
 
-    @Column(name="object_type", nullable = false, updatable=false, insertable = false)
+    @Column(name = "object_type", nullable = false, updatable = false, insertable = false)
     private String objectType;
 
-        @Lob
+    @Lob
     private String comment;
 
 
-    @Column(name="orderinfo_id")
+    @Column(name = "orderinfo_id")
     private Long orderInfo;
 
     @OneToOne
