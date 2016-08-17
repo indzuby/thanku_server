@@ -178,10 +178,10 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public List<OrderObject> getOrderByLocation(Double lat, Double lon) {
         List<OrderObject> objects = new ArrayList<>();
-        objects.addAll(orderRepository.findNotMatchedBuyByLocation(lat, lon, 1.0));
-        objects.addAll(orderRepository.findNotMatchedErrandByLocation(lat, lon, 1.0));
-        objects.addAll(orderRepository.findNotMatchedQuickByLocation(lat, lon, 1.0));
-        objects.addAll(orderRepository.findNotMatchedRestaurantOrderByLocation(lat, lon, 1.0));
+        objects.addAll(orderRepository.findNotMatchedBuyByLocation(lat, lon, 100.0));
+        objects.addAll(orderRepository.findNotMatchedErrandByLocation(lat, lon, 100.0));
+        objects.addAll(orderRepository.findNotMatchedQuickByLocation(lat, lon, 100.0));
+        objects.addAll(orderRepository.findNotMatchedRestaurantOrderByLocation(lat, lon, 100.0));
         Collections.sort(objects, new Comparator<OrderObject>() {
             @Override
             public int compare(OrderObject o1, OrderObject o2) {
