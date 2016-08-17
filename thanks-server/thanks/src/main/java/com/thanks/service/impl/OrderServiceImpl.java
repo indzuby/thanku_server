@@ -182,14 +182,14 @@ public class OrderServiceImpl implements OrderService {
         objects.addAll(orderRepository.findNotMatchedErrandByLocation(lat, lon, 1000.0));
         objects.addAll(orderRepository.findNotMatchedQuickByLocation(lat, lon, 1000.0));
         objects.addAll(orderRepository.findNotMatchedRestaurantOrderByLocation(lat, lon, 1000.0));
-//        Collections.sort(objects, new Comparator<OrderObject>() {
-//            @Override
-//            public int compare(OrderObject o1, OrderObject o2) {
-//                if(o2.getUpdatedTime().getTime() - o1.getUpdatedTime().getTime() < 0)
-//                    return -1;
-//                return 1;
-//            }
-//        });
+        Collections.sort(objects, new Comparator<OrderObject>() {
+            @Override
+            public int compare(OrderObject o1, OrderObject o2) {
+                if(o2.getUpdatedTime().getTime() - o1.getUpdatedTime().getTime() < 0)
+                    return -1;
+                return 1;
+            }
+        });
         return objects;
     }
 
